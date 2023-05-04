@@ -338,10 +338,10 @@ class Coloring_Generator(Base_Generator):
         W = networkx.adjacency_matrix(G)
         W = W.todense()
         W = torch.as_tensor(W, dtype=torch.float)
-        #data = adjacency_matrix_to_tensor_representation(W)
+        data = adjacency_matrix_to_tensor_representation(W)
         #c = networkx.greedy_color(G)
         #print(max(c.values()),self.k)
-        return (W,coloring)
+        return (data,coloring)
 
 
 # class QAP_PP_Generator(Base_Generator):
@@ -403,3 +403,4 @@ class Coloring_Generator(Base_Generator):
 #             raise ValueError('Noise model {} not supported'
 #                              .format(self.noise_model))
 #         return data_list 
+
