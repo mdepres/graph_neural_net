@@ -116,7 +116,7 @@ def train(cpu, train, problem, arch, test_enabled, path_log, use_dgl, data):
     utils.setup_env(cpu)
     
     print("Models saved in ", path_log)
-    exp_helper = init_helper(problem)
+    exp_helper = init_helper(problem,data["name"],data)
     
     # rawscores need to be adapted for dgl
     if use_dgl:
@@ -127,16 +127,14 @@ def train(cpu, train, problem, arch, test_enabled, path_log, use_dgl, data):
         
     
     generator = exp_helper.generator
-    gene_train = generator('train', data['train'], data['path_dataset'])
+    gene_train = generator('train', data['data'], data['path_dataset'])
     gene_train.load_dataset(use_dgl)
-    gene_val = generator('val', data['train'], data['path_dataset'])
+    gene_val = generator('val', data['data'], data['path_dataset'])
     gene_val.load_dataset(use_dgl)
     train_loader = get_loader(use_dgl,gene_train, train['batch_size'],
-                                  gene_train.constant_n_vertices,problem=problem,
-                                  sparsify=data['train']['sparsify'])
+                                  gene_train.constant_n_vertices,problem=problem)
     val_loader = get_loader(use_dgl,gene_val, train['batch_size'],
-                                gene_val.constant_n_vertices,problem=problem,
-                                sparsify=data['train']['sparsify'])
+                                gene_val.constant_n_vertices,problem=problem)
     
     model = get_model_gen(arch)
     optimizer, scheduler = get_optimizer(train,model)

@@ -31,3 +31,16 @@ class triplet_loss(nn.Module):
             loss += incrs[0]
             total += incrs[1]
         return loss/total
+
+class coloring_loss(nn.Module):
+    """ Returns a loss for the coloring problem """
+    def __init__(self):
+        super(coloring_loss, self).__init__()
+    
+    def forward(self, W, pred):
+        score = 0
+        for i in range(W.shape[0]):
+            for j in range(W.shape[1]):
+                if W[i][j] and pred[i]==pred[j]:
+                    score+=1
+        return score/W.shape[0]

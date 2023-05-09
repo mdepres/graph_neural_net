@@ -296,7 +296,7 @@ class QAP_Generator(Base_Generator):
         return (data,torch.empty(0)) #Empty tensor used as dummy data
     
 
-class Coloring_Generator(Base_Generator):
+class GCP_Generator(Base_Generator):
     """
     Build a numpy dataset of graphs and colorings
     """

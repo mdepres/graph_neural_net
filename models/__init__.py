@@ -53,8 +53,8 @@ def get_model_gen(args):
     args_dict = {'arch_load': args['arch_load'],
                 'original_features_num': args['original_features_num'],
                 'num_blocks': args['num_blocks'],
-                'in_features': args['dim_features'],
-                'out_features': args['dim_features'],
+                'in_features': args['in_features'],
+                'out_features': args['out_features'],
                 'depth_of_mlp': args['depth_of_mlp'],
                 'input_embed': args['input_embed']
     }

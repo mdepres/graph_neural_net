@@ -30,6 +30,8 @@ import toolbox.utils as utils
 def get_helper(problem):
     if problem=='qap':
         return QAP_Experiment
+    elif problem=='gcp':
+        return GCP_Experiment
     # elif problem=='tsp':
     #     return TSP_Experiment
     # elif problem=='tsprl':
@@ -202,6 +204,17 @@ class QAP_Experiment(Experiment_Helper):
         
         self.metric = 'acc' #Will be used in super() to compute the relevant metric meter, printer function and update_eval for the logger function
         super().__init__('qap', name, options=options, run=run)
+
+class GCP_Experiment(Experiment_Helper):
+    """ Helper for the graph coloring problem """
+    def __init__(self, name, options=dict(), run=None, loss_reduction='mean') -> None:
+        self.generator = dg.GCP_Generator
+        self._criterion = losses.coloring_loss
+        self.eval_function = losses.coloring_loss 
+        
+        self.metric = 'loss' #Will be used in super() to compute the relevant metric meter, printer function and update_eval for the logger function
+        
+        super().__init__('gcp', name, options=options, run=run)
 
 # class TSP_Experiment(Experiment_Helper):
 #     def __init__(self, name, options=dict(), run=None, loss=BCELoss(reduction='none'), normalize = Sigmoid) -> None:
