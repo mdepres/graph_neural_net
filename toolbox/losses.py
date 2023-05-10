@@ -37,10 +37,12 @@ class coloring_loss(nn.Module):
     def __init__(self):
         super(coloring_loss, self).__init__()
     
-    def forward(self, W, pred):
-        score = 0
-        for i in range(W.shape[0]):
-            for j in range(W.shape[1]):
-                if W[i][j] and pred[i]==pred[j]:
-                    score+=1
-        return score/W.shape[0]
+    def forward(self, W, pred, tgt, eps=1e-2):
+        mark = torch.zeros((1),requires_grad=True)
+        for b in range(W.shape[0]):
+            for i in range(W.shape[1]):
+                for j in range(W.shape[2]):
+                    if W[b][i][j][1].item()==1 and torch.abs(pred[b][i]-pred[b][j])<eps:
+                        mock = torch.ones((1))
+                        mark = torch.add(mark,mock)
+        return mark

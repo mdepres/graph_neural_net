@@ -7,7 +7,8 @@ class ColoringModel(nn.Module):
         super(ColoringModel, self).__init__()
         self.mlp1 = nn.Linear(embed_dim,hidden_dim)
         self.mlp2 = nn.Linear(hidden_dim, 1)
-        self.relu = nn.ReLU
+        self.relu = nn.ReLU()
+
     
     def forward(self, emb_in):
         out = self.mlp1(emb_in)
