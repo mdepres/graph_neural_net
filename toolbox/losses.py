@@ -46,11 +46,3 @@ class coloring_loss(nn.Module):
                         mock = torch.ones((1))
                         mark = torch.add(mark,mock)
         return mark
-
-class potts_loss(nn.Module):
-    """ A loss that is inspired from the Potts model of energy """
-    def __init__(self):
-        super(potts_loss, self).__init__()
-
-    def forward(self,out,tgt):
-        

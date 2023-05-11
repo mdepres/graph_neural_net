@@ -301,13 +301,14 @@ class GCP_Generator(Base_Generator):
     Build a numpy dataset of graphs and colorings
     """
     def __init__(self, name, args, path_dataset):
+        self.generative_model = args['generative_model']
         self.edge_density = args['edge_density']
         num_examples = args['num_examples_' + name]
         n_vertices = args['n_vertices']
         vertex_proba = args['vertex_proba']
         num_colors_low = args['num_colors_low']
         num_colors_high = args['num_colors_high']
-        self.k_gen = lambda: torch.randint(num_colors_low, num_colors_high+1, (1,)).item()
+        self.k = torch.randint(num_colors_low, num_colors_high+1, (1,)).item()
         subfolder_name = 'Color_{}_{}_{}_{}_{}'.format(self.generative_model,
                                                      num_examples,
                                                      n_vertices, vertex_proba, self.edge_density)
@@ -328,51 +329,6 @@ class GCP_Generator(Base_Generator):
         G = networkx.Graph()
         for i in range(n_vertices):
             G.add_node(i)
-        k = self.k_gen()
-        coloring = torch.randint(0, k, (n_vertices,)) # Draw a coloring
-        
-        for i in range(n_vertices):
-            for j in range(i+1, n_vertices):
-                if coloring[i]!=coloring[j] and torch.rand(1).item()<self.edge_density:
-                    G.add_edge(i,j)
-        W = networkx.adjacency_matrix(G)
-        W = W.todense()
-        W = torch.as_tensor(W, dtype=torch.float)
-        data = adjacency_matrix_to_tensor_representation(W)
-        #c = networkx.greedy_color(G)
-        #print(max(c.values()),k)
-        return (data,coloring)
-
-class KCOL(Base_Generator):
-    """
-    Generates a dataset of (hopefully) k-colorable graphs for a fixed k
-    """
-    def __init__(self, name, args, path_dataset):
-        self.edge_density = args['edge_density']
-        num_examples = args['num_examples_' + name]
-        n_vertices = args['n_vertices']
-        vertex_proba = args['vertex_proba']
-        self.k = args['k']
-        subfolder_name = '{}-color_{}_{}_{}_{}_{}_{}'.format(self.k, self.generative_model,
-                                                     num_examples,
-                                                     n_vertices, vertex_proba, self.edge_density)
-        path_dataset = os.path.join(path_dataset, subfolder_name)
-        super().__init__(name, path_dataset, num_examples)
-        self.data = []
-        self.constant_n_vertices = (vertex_proba == 1.)
-        self.n_vertices_sampler = torch.distributions.Binomial(n_vertices, vertex_proba)
-        
-        
-        utils.check_dir(self.path_dataset)
-    
-    def compute_example(self):
-        """
-        Compute adjacencies and associated colorings
-        """
-        n_vertices = int(self.n_vertices_sampler.sample().item())
-        G = networkx.Graph()
-        for i in range(n_vertices):
-            G.add_node(i)
         coloring = torch.randint(0, self.k, (n_vertices,)) # Draw a coloring
         
         for i in range(n_vertices):
@@ -383,7 +339,10 @@ class KCOL(Base_Generator):
         W = W.todense()
         W = torch.as_tensor(W, dtype=torch.float)
         data = adjacency_matrix_to_tensor_representation(W)
+        #c = networkx.greedy_color(G)
+        #print(max(c.values()),self.k)
         return (data,coloring)
+
 
 # class QAP_PP_Generator(Base_Generator):
 #     """
