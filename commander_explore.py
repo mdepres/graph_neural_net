@@ -277,6 +277,7 @@ def main():
     parser.add_argument('--block_init', type=str, default='block')
     parser.add_argument('--block_inside', type=str, default='block_inside')
     parser.add_argument('--node_emb', type=str, default='node_embedding_block')
+    parser.add_argument('--config', type=str, default='default_config.yaml')
     args = parser.parse_args()
     if args.command=='train':
         training=True
@@ -285,7 +286,7 @@ def main():
         training=False
         default_test=True
 
-    config = get_config()
+    config = get_config(args.config)
     if args.n_vertices != 0:
         config['data']['train']['n_vertices'] = args.n_vertices
     if args.noise != 0:
