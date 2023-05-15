@@ -3,11 +3,13 @@ scipy
 networkx
 pytest
 sacred
-PyYAML
+pyyaml
 neptune-contrib
 psutil
 Cython
 sklearn
+scikit-learn
 tqdm
 seaborn
 pandas
+pytorch-lightning
