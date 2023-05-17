@@ -1,0 +1,29 @@
+2023-05-15 16:18:03,670 INFO    MainThread:198746 [wandb_setup.py:_flush():76] Current SDK version is 0.15.2
+2023-05-15 16:18:03,670 INFO    MainThread:198746 [wandb_setup.py:_flush():76] Configure stats pid to 198746
+2023-05-15 16:18:03,670 INFO    MainThread:198746 [wandb_setup.py:_flush():76] Loading settings from /home/mdepres/.config/wandb/settings
+2023-05-15 16:18:03,670 INFO    MainThread:198746 [wandb_setup.py:_flush():76] Loading settings from /home/mdepres/graph_neural_net/wandb/settings
+2023-05-15 16:18:03,670 INFO    MainThread:198746 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-05-15 16:18:03,670 INFO    MainThread:198746 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-05-15 16:18:03,670 INFO    MainThread:198746 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'commander_explore.py', 'program': '/home/mdepres/graph_neural_net/commander_explore.py'}
+2023-05-15 16:18:03,670 INFO    MainThread:198746 [wandb_init.py:_log_setup():507] Logging user logs to /home/mdepres/experiments-gnn/qap/expe_new/node_embedding_rec_Regular_150_0.05/05-15-23-16-14/wandb/run-20230515_161803-aqljez5s/logs/debug.log
+2023-05-15 16:18:03,671 INFO    MainThread:198746 [wandb_init.py:_log_setup():508] Logging internal logs to /home/mdepres/experiments-gnn/qap/expe_new/node_embedding_rec_Regular_150_0.05/05-15-23-16-14/wandb/run-20230515_161803-aqljez5s/logs/debug-internal.log
+2023-05-15 16:18:03,671 INFO    MainThread:198746 [wandb_init.py:init():547] calling init triggers
+2023-05-15 16:18:03,671 INFO    MainThread:198746 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {}
+2023-05-15 16:18:03,671 INFO    MainThread:198746 [wandb_init.py:init():596] starting backend
+2023-05-15 16:18:03,671 INFO    MainThread:198746 [wandb_init.py:init():600] setting up manager
+2023-05-15 16:18:03,675 INFO    MainThread:198746 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-05-15 16:18:03,678 INFO    MainThread:198746 [wandb_init.py:init():606] backend started and connected
+2023-05-15 16:18:03,681 INFO    MainThread:198746 [wandb_init.py:init():700] updated telemetry
+2023-05-15 16:18:03,970 INFO    MainThread:198746 [wandb_init.py:init():737] communicating run to backend with 60.0 second timeout
+2023-05-15 16:18:04,686 INFO    MainThread:198746 [wandb_run.py:_on_init():2177] communicating current version
+2023-05-15 16:18:04,768 INFO    MainThread:198746 [wandb_run.py:_on_init():2186] got version response 
+2023-05-15 16:18:04,768 INFO    MainThread:198746 [wandb_init.py:init():787] starting run threads in backend
+2023-05-15 16:18:07,757 INFO    MainThread:198746 [wandb_run.py:_console_start():2158] atexit reg
+2023-05-15 16:18:07,757 INFO    MainThread:198746 [wandb_run.py:_redirect():2013] redirect: SettingsConsole.WRAP_RAW
+2023-05-15 16:18:07,758 INFO    MainThread:198746 [wandb_run.py:_redirect():2078] Wrapping output streams.
+2023-05-15 16:18:07,758 INFO    MainThread:198746 [wandb_run.py:_redirect():2103] Redirects installed.
+2023-05-15 16:18:07,758 INFO    MainThread:198746 [wandb_init.py:init():829] run started, returning control to user process
+2023-05-15 16:18:07,760 INFO    MainThread:198746 [wandb_run.py:_config_callback():1286] config_cb None None {'problem': 'qap', 'name': 'expe_new', 'cpu': False, 'data': {'train': {'num_examples_train': 20000, 'num_examples_val': 1000, 'n_vertices': 150, 'sparsify': 'None', 'generative_model': 'Regular', 'noise_model': 'ErdosRenyi', 'edge_density': 0.05, 'vertex_proba': 1.0, 'noise': 0.2}, 'test': {'num_examples_test': 1000, 'n_vertices': 100, 'sparsify': 'None', 'generative_model': 'ErdosRenyi', 'noise_model': 'ErdosRenyi', 'edge_density': 0.5, 'vertex_proba': 1.0, 'noise': 0.05, 'path_model': '/home/mlelarge/experiments-gnn/qap/norm_dense/node_embedding_block_ErdosRenyi_100_0.5/12-05-22-17-34/qap_norm_dense/2gf519dg/checkpoints/epoch=9-step=6250.ckpt'}, 'path_dataset': '/home/mdepres/experiments-gnn/qap/data/'}, 'train': {'epochs': 10, 'batch_size': 32, 'lr': 0.001, 'scheduler_step': 3, 'scheduler_decay': 0.5, 'lr_stop': 1e-05, 'log_freq': 50, 'anew': True, 'start_model': '/home/mlelarge/experiments-gnn/qap/qap_res/gatedgcn_8_ErdosRenyi_64_0.09375/02-11-22-20-55/model_best.pth.tar'}, 'arch': {'original_features_num': 2, 'node_emb': {'type': 'node_embedding_rec', 'block_init': 'models.blocks_emb.block_emb', 'block_inside': 'models.blocks_emb.block', 'num_blocks': 4, 'in_features': 64, 'out_features': 64, 'depth_of_mlp': 3, 'num_heads': 16}}, 'observers': {'wandb': True}, 'date_time': '05-15-23-16-14', 'path_log': '/home/mdepres/experiments-gnn/qap/expe_new/node_embedding_rec_Regular_150_0.05/05-15-23-16-14'}
+2023-05-15 16:18:09,327 INFO    MainThread:198746 [wandb_run.py:_config_callback():1286] config_cb None None {'original_features_num': 2, 'node_emb/type': 'node_embedding_rec', 'node_emb/block_init': 'block_emb', 'node_emb/block_inside': 'block', 'node_emb/num_blocks': 4, 'node_emb/in_features': 64, 'node_emb/out_features': 64, 'node_emb/depth_of_mlp': 3, 'node_emb/num_heads': 16, 'lr': 0.001, 'scheduler_decay': 0.5, 'scheduler_step': 3, 'lr_stop': 1e-05}
+2023-05-15 17:09:24,430 WARNING MsgRouterThr:198746 [router.py:message_loop():77] message_loop has been closed

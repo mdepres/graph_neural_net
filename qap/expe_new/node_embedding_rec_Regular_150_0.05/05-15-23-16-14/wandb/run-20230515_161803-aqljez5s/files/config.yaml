@@ -1,0 +1,166 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    python_version: 3.9.16
+    cli_version: 0.15.2
+    framework: lightning
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1684160283.679313
+    t:
+      1:
+      - 1
+      - 5
+      - 9
+      - 53
+      - 55
+      2:
+      - 1
+      - 5
+      - 9
+      - 53
+      - 55
+      3:
+      - 7
+      - 23
+      4: 3.9.16
+      5: 0.15.2
+      8:
+      - 5
+    m:
+    - 1: trainer/global_step
+      6:
+      - 3
+    - 1: lr-Adam
+      5: 1
+      6:
+      - 1
+    - 1: train_loss
+      5: 1
+      6:
+      - 1
+    - 1: train_acc
+      5: 1
+      6:
+      - 1
+    - 1: epoch
+      5: 1
+      6:
+      - 1
+    - 1: val_loss
+      5: 1
+      6:
+      - 1
+    - 1: val_acc
+      5: 1
+      6:
+      - 1
+problem:
+  desc: null
+  value: qap
+name:
+  desc: null
+  value: expe_new
+cpu:
+  desc: null
+  value: false
+data:
+  desc: null
+  value:
+    train:
+      num_examples_train: 20000
+      num_examples_val: 1000
+      n_vertices: 150
+      sparsify: None
+      generative_model: Regular
+      noise_model: ErdosRenyi
+      edge_density: 0.05
+      vertex_proba: 1.0
+      noise: 0.2
+    test:
+      num_examples_test: 1000
+      n_vertices: 100
+      sparsify: None
+      generative_model: ErdosRenyi
+      noise_model: ErdosRenyi
+      edge_density: 0.5
+      vertex_proba: 1.0
+      noise: 0.05
+      path_model: /home/mlelarge/experiments-gnn/qap/norm_dense/node_embedding_block_ErdosRenyi_100_0.5/12-05-22-17-34/qap_norm_dense/2gf519dg/checkpoints/epoch=9-step=6250.ckpt
+    path_dataset: /home/mdepres/experiments-gnn/qap/data/
+train:
+  desc: null
+  value:
+    epochs: 10
+    batch_size: 32
+    lr: 0.001
+    scheduler_step: 3
+    scheduler_decay: 0.5
+    lr_stop: 1.0e-05
+    log_freq: 50
+    anew: true
+    start_model: /home/mlelarge/experiments-gnn/qap/qap_res/gatedgcn_8_ErdosRenyi_64_0.09375/02-11-22-20-55/model_best.pth.tar
+arch:
+  desc: null
+  value:
+    original_features_num: 2
+    node_emb:
+      type: node_embedding_rec
+      block_init: models.blocks_emb.block_emb
+      block_inside: models.blocks_emb.block
+      num_blocks: 4
+      in_features: 64
+      out_features: 64
+      depth_of_mlp: 3
+      num_heads: 16
+observers:
+  desc: null
+  value:
+    wandb: true
+date_time:
+  desc: null
+  value: 05-15-23-16-14
+path_log:
+  desc: null
+  value: /home/mdepres/experiments-gnn/qap/expe_new/node_embedding_rec_Regular_150_0.05/05-15-23-16-14
+original_features_num:
+  desc: null
+  value: 2
+node_emb/type:
+  desc: null
+  value: node_embedding_rec
+node_emb/block_init:
+  desc: null
+  value: block_emb
+node_emb/block_inside:
+  desc: null
+  value: block
+node_emb/num_blocks:
+  desc: null
+  value: 4
+node_emb/in_features:
+  desc: null
+  value: 64
+node_emb/out_features:
+  desc: null
+  value: 64
+node_emb/depth_of_mlp:
+  desc: null
+  value: 3
+node_emb/num_heads:
+  desc: null
+  value: 16
+lr:
+  desc: null
+  value: 0.001
+scheduler_decay:
+  desc: null
+  value: 0.5
+scheduler_step:
+  desc: null
+  value: 3
+lr_stop:
+  desc: null
+  value: 1.0e-05
