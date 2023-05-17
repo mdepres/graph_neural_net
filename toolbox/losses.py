@@ -43,7 +43,8 @@ class coloring_loss(nn.Module):
         for b in range(W.shape[0]):
             for i in range(W.shape[1]):
                 for j in range(W.shape[2]):
-                    if W[b][i][j][1].item()==1 and torch.abs(pred[b][i]-pred[b][j])<eps:
+                    print(pred.shape)
+                    if W[b][1][i][j].item()==1 and torch.abs(pred[b][i]-pred[b][j])<eps:
                         mock = torch.ones((1))
                         mark = torch.add(mark,mock)
         return mark
