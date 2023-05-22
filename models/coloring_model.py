@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class ColoringModel(nn.Module):
     """ A simple network to learn coloring based on prelearned node embeddings"""
-    def __init__(self, n_vertices, embed_dim, k, hidden_dim = 32):
+    def __init__(self, n_vertices, embed_dim, k, hidden_dim = 64):
         super(ColoringModel, self).__init__()
         self.mlp1 = nn.Linear(embed_dim,hidden_dim)
         self.mlp2 = nn.Linear(hidden_dim, k)
