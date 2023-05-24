@@ -362,3 +362,40 @@ class KCOL_Generator(Base_Generator):
         #for i in range(n_vertices):
             #target[i][coloring[i]] = 1
         return (data,coloring)
+
+def SBM_Generator(Base_Generator):
+    def __init__(self, name, args, path_dataset):
+        self.generative_model = args['generative_model']
+        self.edge_density = args['edge_density']
+        self.connection_density = args['connection_density']
+        num_examples = args['num_examples_' + name]
+        n_vertices = args['n_vertices']
+        vertex_proba = args['vertex_proba']
+        subfolder_name = 'Color_{}_{}_{}_{}_{}'.format(self.generative_model,
+                                                     num_examples,
+                                                     n_vertices, vertex_proba, self.edge_density)
+        path_dataset = os.path.join(path_dataset, subfolder_name)
+        super().__init__(name, path_dataset, num_examples)
+   
+   def compute_example(self):
+        """
+        Compute adjacencies and planted assignement
+        """
+        n_vertices = int(self.n_vertices_sampler.sample().item())
+        G = networkx.Graph()
+        for i in range(n_vertices):
+            G.add_node(i)
+        groups = torch.randint(0, 1, (n_vertices,)) # Draw an assignement
+        
+        for i in range(n_vertices):
+            for j in range(i+1, n_vertices):
+                if groups[i]==groups[j] and torch.rand(1).item()<self.edge_density:
+                    G.add_edge(i,j)
+                elif groups[i]!=groups[j] and torch.rand(1).item()<self.connection_density:
+                    G.add_edge(i,j)
+        W = networkx.adjacency_matrix(G)
+        W = W.todense()
+        W = torch.as_tensor(W, dtype=torch.float)
+        data = adjacency_matrix_to_tensor_representation(W)
+        
+        return (data,groups)
