@@ -363,7 +363,7 @@ class KCOL_Generator(Base_Generator):
             #target[i][coloring[i]] = 1
         return (data,coloring)
 
-def MBS_Generator(Base_Generator):
+class MBS_Generator(Base_Generator):
     def __init__(self, name, args, path_dataset):
         self.generative_model = args['generative_model']
         self.edge_density = args['edge_density']
