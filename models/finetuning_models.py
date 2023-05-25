@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-class Classifier_model(nn.Module):
+class ClassifierModel(nn.Module):
     """ A simple network to use prelearned node embeddings to learn graph problems that can be seen as "classification" tasks
     Exemples : Graph coloring for fixed k or Minimum bisection (k=2) """
     def __init__(self, n_vertices, embed_dim, k, hidden_dim = 64):
