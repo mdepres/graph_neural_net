@@ -377,7 +377,7 @@ def SBM_Generator(Base_Generator):
         path_dataset = os.path.join(path_dataset, subfolder_name)
         super().__init__(name, path_dataset, num_examples)
    
-   def compute_example(self):
+    def compute_example(self):
         """
         Compute adjacencies and planted assignement
         """
