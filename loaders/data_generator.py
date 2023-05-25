@@ -363,7 +363,7 @@ class KCOL_Generator(Base_Generator):
             #target[i][coloring[i]] = 1
         return (data,coloring)
 
-def SBM_Generator(Base_Generator):
+def MBS_Generator(Base_Generator):
     def __init__(self, name, args, path_dataset):
         self.generative_model = args['generative_model']
         self.edge_density = args['edge_density']
@@ -385,7 +385,10 @@ def SBM_Generator(Base_Generator):
         G = networkx.Graph()
         for i in range(n_vertices):
             G.add_node(i)
-        groups = torch.randint(0, 1, (n_vertices,)) # Draw an assignement
+        # Draw an assignement
+        nodes = torch.randperm(n_vertices)[:n_vertices//2]
+        groups = torch.zeros((n_vertices,)) 
+        groups[nodes] = 1
         
         for i in range(n_vertices):
             for j in range(i+1, n_vertices):
