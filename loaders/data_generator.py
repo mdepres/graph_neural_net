@@ -376,7 +376,11 @@ class MBS_Generator(Base_Generator):
                                                      n_vertices, vertex_proba, self.edge_density)
         path_dataset = os.path.join(path_dataset, subfolder_name)
         super().__init__(name, path_dataset, num_examples)
-   
+        self.data = []
+        self.constant_n_vertices = (vertex_proba == 1.)
+        self.n_vertices_sampler = torch.distributions.Binomial(n_vertices, vertex_proba)
+        utils.check_dir(self.path_dataset)
+
     def compute_example(self):
         """
         Compute adjacencies and planted assignement
