@@ -1,4 +1,4 @@
-from models.trainers import Siamese_Node_Exp, Graph_Classif_Exp #, scaled_block, block, block_sym, Graph_Classif_Exp
+from models.trainers import Siamese_Node_Exp, Graph_Classif_Exp, Node_Classif_Exp #, scaled_block, block, block_sym, Graph_Classif_Exp
 from toolbox.utils import load_json
 
 from data_benchmarking_gnns.data_helper import NUM_LABELS, NUM_CLASSES
@@ -39,6 +39,24 @@ def get_simple_model_exp(args, config_optim):
     #print('Fetching model %s with (total = %s ) init %s and inside %s' % (node_emb['type'], node_emb['num_blocks'],
     #    node_emb['block_init'], node_emb['block_inside']))
     model =  Graph_Classif_Exp(original_features_num, **args_dict)
+    return model
+
+def get_node_model_exp(args, config_optim):  
+    args_dict =  {'lr' : config_optim['lr'],
+                'scheduler_decay': config_optim['scheduler_decay'],
+                'scheduler_step': config_optim['scheduler_step'],
+                'num_blocks': args['num_blocks'],
+                'in_features': args['in_features'],
+                'out_features': args['out_features'],
+                'depth_of_mlp': args['depth_of_mlp'],
+                'constant_n_vertices': False,
+                'classifier': None
+    }
+    original_features_num = args['original_features_num']
+    #node_emb = args['node_emb']
+    #print('Fetching model %s with (total = %s ) init %s and inside %s' % (node_emb['type'], node_emb['num_blocks'],
+    #    node_emb['block_init'], node_emb['block_inside']))
+    model =  Node_Classif_Exp(original_features_num, **args_dict)
     return model
 
 def get_model_benchmark(args, config_optim, name_data):  

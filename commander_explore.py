@@ -5,7 +5,7 @@ import argparse
 
 import torch
 import torch.backends.cudnn as cudnn
-from models import get_siamese_model_exp, get_siamese_model_test
+from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp
 import loaders.data_generator as dg
 from loaders.loaders import siamese_loader
 #from toolbox.optimizer import get_optimizer
@@ -86,14 +86,19 @@ def train(config):
     
     print("Models saved in ", path_log)
     #exp_helper = init_helper(problem) 
-    model_pl = get_siamese_model_exp(config_arch, config_optim) 
-
-    generator = dg.QAP_Generator
-    #generator = dg.QAP_spectralGenerator
+    
+    
+    if config['arch'] == 'qap':
+        model_pl = get_siamese_model_exp(config_arch, config_optim) 
+        generator = dg.QAP_Generator
+    elif config['arch'] == 'kcol' :
+        model_pl = get_node_model_exp(config_arch, config_optim)
+        generator = dg.KCOL_Generator
     gene_train = generator('train', data['train'], data['path_dataset'])
     gene_train.load_dataset()
     gene_val = generator('val', data['train'], data['path_dataset'])
     gene_val.load_dataset()
+    
     train_loader = siamese_loader(gene_train, batch_size,
                                   gene_train.constant_n_vertices)
     val_loader = siamese_loader(gene_val, batch_size,
