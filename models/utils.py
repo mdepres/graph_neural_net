@@ -61,6 +61,7 @@ class Network(nn.Module):
         return (node for node, _ in self.graph.values())
     
     def forward(self, inputs):
+        print(inputs)
         outputs = dict(inputs)
         for k, (node, ins) in self.graph.items():
             #only compute nodes that are not supplied as inputs.
