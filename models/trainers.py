@@ -173,7 +173,7 @@ class Graph_Classif_Exp(pl.LightningModule):
         self.lr = lr
         self.scheduler_decay = scheduler_decay
         self.scheduler_step = scheduler_step
-        self.accuracy = torchmetrics.Accuracy()
+        self.accuracy = torchmetrics.Accuracy(task='multiclass')
 
         self.save_hyperparameters()
 
@@ -253,7 +253,7 @@ class Node_Classif_Exp(pl.LightningModule):
         self.lr = lr
         self.scheduler_decay = scheduler_decay
         self.scheduler_step = scheduler_step
-        self.accuracy = torchmetrics.Accuracy()
+        self.accuracy = torchmetrics.Accuracy(task='multiclass')
 
         self.save_hyperparameters()
 
