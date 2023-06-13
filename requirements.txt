@@ -13,3 +13,4 @@ tqdm
 seaborn
 pandas
 pytorch-lightning
+wandb
