@@ -253,7 +253,7 @@ class Node_Classif_Exp(pl.LightningModule):
         self.lr = lr
         self.scheduler_decay = scheduler_decay
         self.scheduler_step = scheduler_step
-        self.accuracy = torchmetrics.Accuracy(task='multiclass')
+        self.accuracy = torchmetrics.Accuracy(task='multiclass', num_classes = n_classes)
 
         self.save_hyperparameters()
 

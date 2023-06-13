@@ -89,8 +89,8 @@ def train(config):
     
     print(config['problem'])
     if config['problem'] == 'kcol' :
-        model_pl = get_node_model_exp(config_arch, config_optim)
-        generator = dg.KCOL_Generator
+        model_pl = get_node_model_exp(config_arch, config_optim, config['k'])
+        generator = dg.KCOL_Generator(k=config['k'])
     else:
         model_pl = get_siamese_model_exp(config_arch, config_optim) 
         generator = dg.QAP_Generator

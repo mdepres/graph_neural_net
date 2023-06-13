@@ -2,6 +2,7 @@
 problem: kcol # PB_DIR = experiments-gnn/$problem
 name: experiment_kcol1 # results will be stored in PB_DIR/$name
 cpu: No
+k: 5
 #root_dir: 'experiments-gnn' # not used...
 #test_enabled: Yes
 #use_dgl: No

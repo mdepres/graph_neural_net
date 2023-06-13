@@ -321,13 +321,13 @@ class GCP_Generator(Base_Generator):
         return (data,coloring)
 
 class KCOL_Generator(Base_Generator):
-    def __init__(self, name, args, path_dataset):
+    def __init__(self, name, args, path_dataset, k):
         self.generative_model = args['generative_model']
         self.edge_density = args['edge_density']
         num_examples = args['num_examples_' + name]
         n_vertices = args['n_vertices']
         vertex_proba = args['vertex_proba']
-        self.k = args['k']
+        self.k = k
         subfolder_name = 'Color_{}_{}_{}_{}_{}'.format(self.generative_model,
                                                      num_examples,
                                                      n_vertices, vertex_proba, self.edge_density)
