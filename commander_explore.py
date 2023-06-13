@@ -90,13 +90,15 @@ def train(config):
     print(config['problem'])
     if config['problem'] == 'kcol' :
         model_pl = get_node_model_exp(config_arch, config_optim, config['k'])
-        generator = dg.KCOL_Generator(k=config['k'])
+        generator = dg.KCOL_Generator
+        data['train']['k'] = config['k']
+        data['test']['k'] = config['k']
     else:
         model_pl = get_siamese_model_exp(config_arch, config_optim) 
         generator = dg.QAP_Generator
     gene_train = generator('train', data['train'], data['path_dataset'])
     gene_train.load_dataset()
-    gene_val = generator('val', data['train'], data['path_dataset'])
+    gene_val = generator('val', data['test'], data['path_dataset'])
     gene_val.load_dataset()
     
     train_loader = siamese_loader(gene_train, batch_size,
