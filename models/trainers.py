@@ -240,7 +240,7 @@ class Node_Classif_Exp(pl.LightningModule):
         self.out_features = out_features
         self.depth_of_mlp = depth_of_mlp
         self.node_embedder_dic = node_embedding_block(original_features_num, num_blocks=num_blocks, 
-            out_features=out_features, depth_of_mlp=depth_of_mlp, num_heads=4 constant_n_vertices=constant_n_vertices)
+            out_features=out_features, depth_of_mlp=depth_of_mlp, num_heads=4, constant_n_vertices=constant_n_vertices)
         self.node_embedder = Network(self.node_embedder_dic)
 
         if classifier is None:
