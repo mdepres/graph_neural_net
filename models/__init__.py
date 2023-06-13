@@ -45,10 +45,10 @@ def get_node_model_exp(args, config_optim):
     args_dict =  {'lr' : config_optim['lr'],
                 'scheduler_decay': config_optim['scheduler_decay'],
                 'scheduler_step': config_optim['scheduler_step'],
-                'num_blocks': args['num_blocks'],
-                'in_features': args['in_features'],
-                'out_features': args['out_features'],
-                'depth_of_mlp': args['depth_of_mlp'],
+                'num_blocks': args['node_emb']['num_blocks'],
+                'in_features': args['node_emb']['in_features'],
+                'out_features': args['node_emb']['out_features'],
+                'depth_of_mlp': args['node_emb']['depth_of_mlp'],
                 'constant_n_vertices': False,
                 'classifier': None
     }
