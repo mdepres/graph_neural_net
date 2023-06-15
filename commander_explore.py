@@ -7,7 +7,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp
 import loaders.data_generator as dg
-from loaders.loaders import siamese_loader
+from loaders.loaders import siamese_loader, simple_loader
 #from toolbox.optimizer import get_optimizer
 import toolbox.utils as utils
 from datetime import datetime
@@ -102,10 +102,17 @@ def train(config):
     gene_val = generator('val', data['train'], data['path_dataset'])
     gene_val.load_dataset()
     
-    train_loader = siamese_loader(gene_train, batch_size,
-                                  gene_train.constant_n_vertices)
-    val_loader = siamese_loader(gene_val, batch_size,
-                                gene_val.constant_n_vertices, shuffle=False)
+    if config['problem'] == 'qap':
+        train_loader = siamese_loader(gene_train, batch_size,
+                                    gene_train.constant_n_vertices)
+        val_loader = siamese_loader(gene_val, batch_size,
+                                    gene_val.constant_n_vertices, shuffle=False)
+    
+    else:
+        train_loader = simple_loader(gene_train, batch_size,
+                                    gene_train.constant_n_vertices)
+        val_loader = simple_loader(gene_val, batch_size,
+                                    gene_val.constant_n_vertices, shuffle=False)
     
     
     #optimizer, scheduler = get_optimizer(train,model)
