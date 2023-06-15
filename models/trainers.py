@@ -272,8 +272,8 @@ class Node_Classif_Exp(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        g, target = batch
-        target = target['input']
+        #g, target = batch
+        target = batch['target']
         logp = self(batch)
         loss = self.loss(logp, target)
         self.log('val_loss', loss)
