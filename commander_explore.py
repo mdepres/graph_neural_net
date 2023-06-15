@@ -87,11 +87,13 @@ def train(config):
     print("Models saved in ", path_log)
     #exp_helper = init_helper(problem) 
     
-    print(config['problem'])
     if config['problem'] == 'kcol' :
         model_pl = get_node_model_exp(config_arch, config_optim, config['k'])
         generator = dg.KCOL_Generator
         data['train']['k'] = config['k']
+    elif config['problem'] == 'mbs' :
+        model_pl = get_node_model_exp(config_arch, config_optim, 2)
+        generator = dg.MBS_Generator
     else:
         model_pl = get_siamese_model_exp(config_arch, config_optim) 
         generator = dg.QAP_Generator

@@ -41,7 +41,7 @@ def get_simple_model_exp(args, config_optim):
     model =  Graph_Classif_Exp(original_features_num, **args_dict)
     return model
 
-def get_node_model_exp(args, config_optim, k):  
+def get_node_model_exp(args, config_optim, n_classes):  
     args_dict =  {'lr' : config_optim['lr'],
                 'scheduler_decay': config_optim['scheduler_decay'],
                 'scheduler_step': config_optim['scheduler_step'],
@@ -51,7 +51,7 @@ def get_node_model_exp(args, config_optim, k):
                 'depth_of_mlp': args['node_emb']['depth_of_mlp'],
                 'constant_n_vertices': False,
                 'classifier': None,
-                'n_classes': k
+                'n_classes': n_classes
     }
     original_features_num = args['original_features_num']
     #node_emb = args['node_emb']

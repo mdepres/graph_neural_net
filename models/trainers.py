@@ -258,6 +258,7 @@ class Node_Classif_Exp(pl.LightningModule):
         self.save_hyperparameters()
 
     def forward(self, x):
+        print(x)
         x = self.node_embedder(x)['suffix']
         return self.classifier(x)
 
