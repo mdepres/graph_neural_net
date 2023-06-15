@@ -263,7 +263,6 @@ class Node_Classif_Exp(pl.LightningModule):
         return self.classifier(x)
 
     def training_step(self, batch, batch_idx):
-        #g, target = batch
         logp = self(batch)
         loss = self.loss(logp, batch['target'])
         self.log('train_loss', loss)
@@ -272,7 +271,7 @@ class Node_Classif_Exp(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        #g, target = batch
+        print(batch)
         target = batch['target']
         logp = self(batch)
         loss = self.loss(logp, target)
