@@ -66,6 +66,7 @@ def benchmark_loader(data, batch_size, constant_n_vertices=False, shuffle=True):
 def collate_classif(samples_list):
     graphs = [inp for inp,_ in samples_list]
     labels = [lab for _,lab in samples_list]
+    print(labels)
     return {'input': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),
             'target': torch.tensor(labels).int()}
 
