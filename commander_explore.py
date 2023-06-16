@@ -7,7 +7,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp
 import loaders.data_generator as dg
-from loaders.loaders import siamese_loader, simple_loader
+from loaders.loaders import siamese_loader, node_classif_loader
 #from toolbox.optimizer import get_optimizer
 import toolbox.utils as utils
 from datetime import datetime
@@ -109,9 +109,9 @@ def train(config):
                                     gene_val.constant_n_vertices, shuffle=False)
     
     else:
-        train_loader = simple_loader(gene_train, batch_size,
+        train_loader = node_classif_loader(gene_train, batch_size,
                                     gene_train.constant_n_vertices)
-        val_loader = simple_loader(gene_val, batch_size,
+        val_loader = node_classif_loader(gene_val, batch_size,
                                     gene_val.constant_n_vertices, shuffle=False)
     
     

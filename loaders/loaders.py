@@ -62,3 +62,24 @@ def benchmark_loader(data, batch_size, constant_n_vertices=False, shuffle=True):
         #return DataLoader(data, batch_size=batch_size, shuffle=shuffle, num_workers=4)
     return DataLoader(data, batch_size=batch_size, shuffle=shuffle,
                                     num_workers=0, collate_fn=collate_fn_benchmark)
+
+    
+def collate_classif(samples_list):
+    graphs = [inp for inp,_ in samples_list]
+    labels = [lab for _,lab in samples_list]
+    return {'input': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),
+            'target': torch.tensor(labels)}
+
+def collate_classif_explore(samples_list):
+    input_list = [input1 for input1, _ in samples_list]
+    labels = [lab for _,lab in samples_list]
+    return {'input': torch.stack(input_list),'target': torch.tensor(labels)}
+  
+
+def node_classif_loader(data, batch_size, constant_n_vertices, shuffle=True):
+    assert len(data) > 0
+    if constant_n_vertices:
+        return DataLoader(data, batch_size=batch_size, shuffle=shuffle,
+                                        num_workers=4, collate_fn=collate_classif)
+    return DataLoader(data, batch_size=batch_size, shuffle=shuffle,
+                                    num_workers=0, collate_fn=collate_classif_explore)
