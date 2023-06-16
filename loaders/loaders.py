@@ -1,6 +1,7 @@
 import maskedtensors.maskedtensor as maskedtensor
 from torch.utils.data import DataLoader#, default_collate
 import torch
+import numpy as np
 
 def collate_fn_pair(samples_list):
     input1_list = [input1 for input1, _ in samples_list]
@@ -65,8 +66,7 @@ def benchmark_loader(data, batch_size, constant_n_vertices=False, shuffle=True):
 
 def collate_classif(samples_list):
     graphs = [inp for inp,_ in samples_list]
-    labels = [lab for _,lab in samples_list]
-    print(len(labels),labels[:3])
+    labels = np.array([lab for _,lab in samples_list])
     return {'input': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),
             'target': torch.tensor(labels)}
 
