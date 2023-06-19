@@ -114,7 +114,6 @@ def train(config):
         val_loader = node_classif_loader(gene_val, batch_size,
                                     gene_val.constant_n_vertices, shuffle=False)
     
-    print("Loader built")
     #optimizer, scheduler = get_optimizer(train,model)
     #print("Model #parameters : ", sum(p.numel() for p in model.parameters() if p.requires_grad))
 
