@@ -32,7 +32,6 @@ def collate_fn_explore(samples_list):
     graphs = [inp[0,:,:].unsqueeze(0) for inp,_ in samples_list]
     nodes_f = [torch.diagonal(inp[1:,:,:], dim1=1, dim2=2) for inp,_ in samples_list]
     labels = [lab for _,lab in samples_list]
-    #print(nodes_f)
     return {'graphs': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),
             'nodes_f': maskedtensor.from_list(nodes_f, dims=(1,), base_name='N'),
             'target': torch.tensor(labels)}
@@ -50,7 +49,6 @@ def collate_fn_benchmark(list):
     graphs = [inp[0,:,:].unsqueeze(0) for inp,_ in list]
     nodes_f = [torch.diagonal(inp[1:,:,:], dim1=1, dim2=2) for inp,_ in list]
     labels = [lab for _,lab in list]
-    #print(nodes_f)
     return {'graphs': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),
             'nodes_f': maskedtensor.from_list(nodes_f, dims=(1,), base_name='N'),
             'target': torch.tensor(labels)}
