@@ -12,7 +12,6 @@ def get_siamese_model_exp(args, config_optim):
     node_emb = args['node_emb']
     print('Fetching model %s with (total = %s ) init %s and inside %s' % (node_emb['type'], node_emb['num_blocks'],
         node_emb['block_init'], node_emb['block_inside']))
-    #print(node_emb)
     model =  Siamese_Node_Exp(original_features_num, node_emb, **args_dict)
     return model
 
