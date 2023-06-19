@@ -84,7 +84,6 @@ class Siamese_Node_Exp(pl.LightningModule):
         Data should be given with the shape (b,2,f,n,n)
         """
         x1 = self.node_embedder(x1)['ne/suffix']
-        #print(x1)
         x2 = self.node_embedder(x2)['ne/suffix']
         # einsum not supported with maskedtensors
         #raw_scores = torch.einsum('bfi,bfj-> bij', x1, x2)
@@ -258,7 +257,6 @@ class Node_Classif_Exp(pl.LightningModule):
         self.save_hyperparameters()
 
     def forward(self, x):
-        print(x)
         x = self.node_embedder(x)['suffix']
         return self.classifier(x)
 
