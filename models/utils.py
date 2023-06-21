@@ -61,10 +61,10 @@ class Network(nn.Module):
         return (node for node, _ in self.graph.values())
     
     def forward(self, inputs):
-        print("Hello", inputs)
         outputs = dict(inputs)
         for k, (node, ins) in self.graph.items():
             #only compute nodes that are not supplied as inputs.
+            print(k, node, ins)
             if k not in outputs: 
                 outputs[k] = node(*[outputs[x] for x in ins])
         return outputs
