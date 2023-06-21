@@ -68,6 +68,7 @@ class Network(nn.Module):
             if ins == ['suffix']: # For some reason the first layer is incorrect
                 ins = ['input']
             if k not in outputs:
+                print(node, outputs[ins[0]].shape)
                 outputs[k] = node(*[outputs[x] for x in ins])
         return outputs
     
