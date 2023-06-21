@@ -61,11 +61,11 @@ class Network(nn.Module):
         return (node for node, _ in self.graph.values())
     
     def forward(self, inputs):
-        outputs == dict(inputs)
+        outputs = dict(inputs)
         print(outputs)
         for k, (node, ins) in self.graph.items():
             #only compute nodes that are not supplied as inputs.
-            if ins = ['suffix']:
+            if ins == ['suffix']:
                 ins = ['Data']
             print(k, node, ins)
             if k not in outputs:
