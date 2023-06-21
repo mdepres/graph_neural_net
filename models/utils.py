@@ -65,8 +65,6 @@ class Network(nn.Module):
         print(outputs)
         for k, (node, ins) in self.graph.items():
             #only compute nodes that are not supplied as inputs.
-            if ins == ['suffix']:
-                ins = ['Data']
             print(k, node, ins)
             if k not in outputs:
                 outputs[k] = node(*[outputs[x] for x in ins])
