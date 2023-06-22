@@ -258,12 +258,12 @@ class Node_Classif_Exp(pl.LightningModule):
 
     def forward(self, x):
         x = self.node_embedder(x)['suffix']
-        a = self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
-        print(a.shape)
-        return a
+        return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
         logp = self(batch)
+        logp = logp.reshape((logp.shape[0]*logp.shape[1],-1))
+        print(logp.shape)
         loss = self.loss(logp, batch['target'])
         self.log('train_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), batch['target'])
