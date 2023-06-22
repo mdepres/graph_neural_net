@@ -168,6 +168,7 @@ class MaskedTensor:
         """ Permute the tensor """
         # Unfortunately, permute is not yet implemented for named tensors
         # So we do it by hand
+        print(len(dims), len(self.tensor.size()))
         if len(dims) != len(self.tensor.size()):
             raise ValueError
         names = self.tensor.names
