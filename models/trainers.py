@@ -258,9 +258,7 @@ class Node_Classif_Exp(pl.LightningModule):
 
     def forward(self, x):
         x = self.node_embedder(x)['suffix']
-        print(x.shape)
-        print(self.out_features)
-        return self.classifier(x)
+        return self.classifier(torch.permute(x, (0,2,1))) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
         logp = self(batch)
