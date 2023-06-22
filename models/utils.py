@@ -70,6 +70,7 @@ class Network(nn.Module):
             if k not in outputs:
                 print(node, outputs[ins[0]].shape)
                 outputs[k] = node(*[outputs[x] for x in ins])
+                print("layer done")
         return outputs
     
     def half(self):
