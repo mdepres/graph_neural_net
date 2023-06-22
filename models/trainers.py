@@ -258,6 +258,8 @@ class Node_Classif_Exp(pl.LightningModule):
 
     def forward(self, x):
         x = self.node_embedder(x)['suffix']
+        print(x.shape)
+        print(self.out_features)
         return self.classifier(x)
 
     def training_step(self, batch, batch_idx):
