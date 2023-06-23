@@ -275,6 +275,7 @@ class Node_Classif_Exp(pl.LightningModule):
         logp = self(batch)
         #logp = logp.reshape((logp.shape[0]*logp.shape[1],-1))
         print(logp.shape)
+        print(target.shape)
         loss = self.loss(logp, target)
         self.log('val_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), target)
