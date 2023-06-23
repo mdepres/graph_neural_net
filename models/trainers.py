@@ -262,7 +262,6 @@ class Node_Classif_Exp(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         logp = self(batch)
-        logp = logp.reshape((logp.shape[0]*logp.shape[1],-1))
         print(logp.shape)
         loss = self.loss(logp, batch['target'])
         self.log('train_loss', loss)
@@ -272,7 +271,7 @@ class Node_Classif_Exp(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         target = batch['target']
-        logp = self(batch).permute(0,1,2)
+        logp = self(batch).permute(0,2,1)
         #logp = logp.reshape((logp.shape[0]*logp.shape[1],-1))
         print(logp.shape)
         print(target.shape)
