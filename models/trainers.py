@@ -261,8 +261,8 @@ class Node_Classif_Exp(pl.LightningModule):
         return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
-        logp = self(batch)
-        print(logp.shape)
+        logp = self(batch).permute(0,2,1)
+        print("train", logp.shape)
         loss = self.loss(logp, batch['target'])
         self.log('train_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), batch['target'])
@@ -273,8 +273,7 @@ class Node_Classif_Exp(pl.LightningModule):
         target = batch['target']
         logp = self(batch).permute(0,2,1)
         #logp = logp.reshape((logp.shape[0]*logp.shape[1],-1))
-        print(logp.shape)
-        print(target.shape)
+        print("valid", logp.shape, target.shape)
         loss = self.loss(logp, target)
         self.log('val_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), target)
