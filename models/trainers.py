@@ -272,7 +272,7 @@ class Node_Classif_Exp(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         target = batch['target']
-        logp = self(batch)
+        logp = self(batch).permute(0,1,2)
         #logp = logp.reshape((logp.shape[0]*logp.shape[1],-1))
         print(logp.shape)
         print(target.shape)
