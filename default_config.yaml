@@ -1,6 +1,6 @@
 ---
-problem: kcol # PB_DIR = experiments-gnn/$problem
-name: experiment_kcol1 # results will be stored in PB_DIR/$name
+problem: mbs # PB_DIR = experiments-gnn/$problem
+name: experiment_mbs # results will be stored in PB_DIR/$name
 cpu: No
 k: 5
 #root_dir: 'experiments-gnn' # not used...
@@ -16,7 +16,8 @@ data:
         sparsify: None #Only works for not fgnns. Put to None if you don't want sparsifying
         generative_model: Regular # so far ErdosRenyi, Regular or BarabasiAlbert
         noise_model: ErdosRenyi
-        edge_density: 0.05 #0.015 #0.025
+        edge_density: 0.2 #0.015 #0.025
+        connection_density: 0.05
         vertex_proba: 1. # Parameter of the binomial distribution of vertices
         noise: 0.2 #0.3 #0.32 #0.2 #0.2 0.4 0.6 0.8 0.9
             
