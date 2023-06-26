@@ -271,8 +271,7 @@ class Node_Classif_Exp(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         target = batch['target']
         logp = self(batch).permute(0,2,1)
-        print(target, logp)
-        loss = self.loss(logp, target)
+        loss = self.loss(logp, target.long())
         self.log('val_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), target)
         self.log("val_acc", acc)
