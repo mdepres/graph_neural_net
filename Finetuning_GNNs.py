@@ -164,7 +164,8 @@ for idx, (graph,tgt) in enumerate(train_loader):
     embed = embed.cpu().detach().numpy()
     embed = np.swapaxes(embed,1,2)
     embed = np.resize(embed, (embed.shape[0]*embed.shape[1],embed.shape[-1]))
-    embed = np.hstack((embed,np.random.random((embed.shape[0],5))*np.max(embed))) 
+    embed = np.hstack((embed,np.random.random((embed.shape[0],12))*np.max(embed))) 
+    print(embed.shape)
     tgt = tgt['input']
     tgt = np.resize(tgt, (tgt.shape[0]*tgt.shape[1],))
     
@@ -180,7 +181,7 @@ for idx, (graph,tgt) in enumerate(valid_loader):
     embed = embed.cpu().detach().numpy()
     embed = np.swapaxes(embed,1,2)    
     embed = np.resize(embed, (embed.shape[0]*embed.shape[1],embed.shape[-1]))
-    embed = np.hstack((embed,np.random.random((embed.shape[0],5))*np.max(embed))) 
+    embed = np.hstack((embed,np.random.random((embed.shape[0],12))*np.max(embed))) 
     tgt = tgt['input']
     tgt = np.resize(tgt, (tgt.shape[0]*tgt.shape[1],))
     
