@@ -408,7 +408,7 @@ class MBS_Generator(Base_Generator):
         return (data,groups)
 
 
-class DCs_Generator(Base_Generator):
+class DC_Generator(Base_Generator):
     """ Detect cycle, a simple problem """
     def __init__(self, name, args, path_dataset):
         self.generative_model = args['generative_model']
