@@ -66,7 +66,6 @@ class Network(nn.Module):
             #only compute nodes that are not supplied as inputs.
             #if ins == ['suffix']: # For some reason the first layer is incorrect
             #    ins = ['input']
-            print(ins)
             if k not in outputs:
                 outputs[k] = node(*[outputs[x] for x in ins])
         return outputs

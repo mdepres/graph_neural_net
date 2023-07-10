@@ -297,3 +297,82 @@ class Node_Classif_Exp(pl.LightningModule):
         },
     }
 
+class Node_Classif_With_Edges_Exp(pl.LightningModule):
+    def __init__(self, original_features_num, num_blocks, in_features,
+                out_features, depth_of_mlp, block=block, constant_n_vertices=True, input_embed=False,
+                n_classes = 10, classifier=None,
+                    lr=1e-3, scheduler_decay=0.5, scheduler_step=5):
+        """
+        take a batch of graphs as
+        (bs, original_features, n_vertices, n_vertices)
+        and return a batch of graph features (bs, n_classes)
+        graphs must NOT have same size inside the batch when maskedtensors are used
+        """
+        super().__init__()
+
+        self.original_features_num = original_features_num
+        self.num_blocks = num_blocks
+        self.in_features = in_features
+        self.out_features = out_features
+        self.depth_of_mlp = depth_of_mlp
+        self.node_embedder_dic = node_embedding_block(original_features_num, num_blocks=num_blocks, 
+            out_features=out_features, depth_of_mlp=depth_of_mlp, num_heads=4, constant_n_vertices=constant_n_vertices)
+        self.node_embedder = Network(self.node_embedder_dic)
+
+        if classifier is None:
+            #self.classifier = nn.Sequential(nn.Linear((num_blocks+1)*out_features, n_classes), nn.LogSoftmax(dim=1))
+            self.classifier = nn.Sequential(nn.Linear(out_features, n_classes), nn.LogSoftmax(dim=1))
+        else:
+            self.classifier = classifier
+
+        self.loss = nn.NLLLoss()
+        self.lr = lr
+        self.scheduler_decay = scheduler_decay
+        self.scheduler_step = scheduler_step
+        self.accuracy = torchmetrics.Accuracy(task='multiclass', num_classes = n_classes)
+
+        self.save_hyperparameters()
+
+    def forward(self, x):
+        print(self.node_embedder.keys())
+        x = self.node_embedder(x)['ne/bm/block4/mlp3']
+        print(x.shape)
+        return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
+
+    def training_step(self, batch, batch_idx):
+        logp = self(batch).permute(0,2,1)
+        loss = self.loss(logp, batch['target'].long())
+        self.log('train_loss', loss)
+        acc = self.accuracy(logp.tensor.rename(None), batch['target'])
+        self.log("train_acc", acc)
+        return loss
+
+    def validation_step(self, batch, batch_idx):
+        target = batch['target']
+        logp = self(batch).permute(0,2,1)
+        loss = self.loss(logp, target.long())
+        self.log('val_loss', loss)
+        acc = self.accuracy(logp.tensor.rename(None), target)
+        self.log("val_acc", acc)
+
+    def test_step(self, batch, batch_idx):
+        target = batch['target']
+        logp = self(batch)
+        loss = self.loss(logp, target)
+        self.log('test_loss', loss)
+        acc = self.accuracy(logp.tensor.rename(None), target)
+        self.log("test_acc", acc)
+
+    def configure_optimizers(self):
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.lr,
+                            amsgrad=False)
+        return {
+        "optimizer": optimizer,
+        "lr_scheduler": {
+            "scheduler": torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=self.scheduler_decay, patience=self.scheduler_step, verbose=True, min_lr=0.0001) ,
+            "monitor": "val_loss",
+            "frequency": 1
+            # If "monitor" references validation metrics, then "frequency" should be set to a
+            # multiple of "trainer.check_val_every_n_epoch".
+        },
+    }
