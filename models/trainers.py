@@ -108,7 +108,6 @@ class Siamese_Node_Exp(pl.LightningModule):
         loss = self.loss(raw_scores)
         self.log('val_loss', loss)
         (acc,n) = self.metric(raw_scores)
-        #print(acc)
         self.log("val_acc", acc/n)
 
     def test_step(self, batch, batch_idx):
@@ -117,7 +116,6 @@ class Siamese_Node_Exp(pl.LightningModule):
         loss = self.loss(raw_scores)
         self.log('test_loss', loss)
         (acc,n) = self.metric(raw_scores)
-        #print(acc)
         self.log("test_acc", acc/n)
     
     def configure_optimizers(self):
