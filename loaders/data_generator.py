@@ -408,47 +408,57 @@ class MBS_Generator(Base_Generator):
         return (data,groups)
 
 
-#class DCs_Generator(Base_Generator):
-    #""" Detect cycle, a simple problem """
-    #def __init__(self, name, args, path_dataset):
-        #self.generative_model = args['generative_model']
-        #self.edge_density = args['edge_density']
-        #self.connection_density = args['connection_density']
-        #num_examples = args['num_examples_' + name]
-        #n_vertices = args['n_vertices']
-        #vertex_proba = args['vertex_proba']
-        #subfolder_name = 'Color_{}_{}_{}_{}_{}'.format(self.generative_model,
-                                                     #num_examples,
-                                                     #n_vertices, vertex_proba, self.edge_density)
-        #path_dataset = os.path.join(path_dataset, subfolder_name)
-        #super().__init__(name, path_dataset, num_examples)
-        #self.data = []
-        #self.constant_n_vertices = (vertex_proba == 1.)
-        #self.n_vertices_sampler = torch.distributions.Binomial(n_vertices, vertex_proba)
-        #utils.check_dir(self.path_dataset)
+class DCs_Generator(Base_Generator):
+    """ Detect cycle, a simple problem """
+    def __init__(self, name, args, path_dataset):
+        self.generative_model = args['generative_model']
+        self.edge_density = args['edge_density']
+        self.connection_density = args['connection_density']
+        num_examples = args['num_examples_' + name]
+        n_vertices = args['n_vertices']
+        vertex_proba = args['vertex_proba']
+        subfolder_name = 'Color_{}_{}_{}_{}_{}'.format(self.generative_model,
+                                                     num_examples,
+                                                     n_vertices, vertex_proba, self.edge_density)
+        path_dataset = os.path.join(path_dataset, subfolder_name)
+        super().__init__(name, path_dataset, num_examples)
+        self.data = []
+        self.constant_n_vertices = (vertex_proba == 1.)
+        self.n_vertices_sampler = torch.distributions.Binomial(n_vertices, vertex_proba)
+        utils.check_dir(self.path_dataset)
 
-    #def compute_example(self):
-        #"""
-        #Compute adjacencies and planted assignement
-        #"""
-        #n_vertices = int(self.n_vertices_sampler.sample().item())
-        #G = networkx.Graph()
-        #for i in range(n_vertices):
-            #G.add_node(i)
-        ## Draw a cycle
-        #length_cycle = int(torch.randint(low=3,high=n_vertices-5,(1,)).item())
-        ##draw the corresponding nodes
+    def compute_example(self):
+        """
+        Compute adjacencies and planted assignement
+        """
+        n_vertices = int(self.n_vertices_sampler.sample().item())
+        G = networkx.Graph()
+        for i in range(n_vertices):
+            G.add_node(i)
+        # Draw a cycle
+        cycle_length = np.random.randint(0,n_vertices-5)
+        # Draw the corresponding nodes
+        cycle = np.random.choice(n_vertices, size=cycle_length, replace=False)
+        target = torch.zeros(n_vertices)
+        for node in cycle:
+            target[node] = 1
         
+        # Add the cycle's edges
+        for i in range(len(cycle)):
+            if i+1>=len(cycle):
+                G.add_edge(cycle[i],cycle[0])
+            else:
+                G.add_edge(cycle[i],cycle[i+1]) 
+            
+        # Add other edges
+        for i in range(n_vertices):
+            for j in range(i+1, n_vertices):
+                if torch.rand(1).item()<self.edge_density:
+                    G.add_edge(i,j)
+        W = networkx.adjacency_matrix(G)
+        W = W.todense()
+        W = torch.as_tensor(W, dtype=torch.float)
+        data = adjacency_matrix_to_tensor_representation(W)
         
-        #for i in range(n_vertices):
-            #for j in range(i+1, n_vertices):
-                #if groups[i]==groups[j] and torch.rand(1).item()<self.edge_density:
-                    #G.add_edge(i,j)
-                #elif groups[i]!=groups[j] and torch.rand(1).item()<self.connection_density:
-                    #G.add_edge(i,j)
-        #W = networkx.adjacency_matrix(G)
-        #W = W.todense()
-        #W = torch.as_tensor(W, dtype=torch.float)
-        #data = adjacency_matrix_to_tensor_representation(W)
-        
-        #return (data,groups)
+        print(target)
+        return (data,target)
