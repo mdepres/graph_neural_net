@@ -255,7 +255,6 @@ class Node_Classif_Exp(pl.LightningModule):
         self.save_hyperparameters()
 
     def forward(self, x):
-        print(self.node_embedder.keys())
         x = self.node_embedder(x)['suffix']
         return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
 
@@ -334,7 +333,6 @@ class Node_Classif_With_Edges_Exp(pl.LightningModule):
         self.save_hyperparameters()
 
     def forward(self, x):
-        print(self.node_embedder.keys())
         x = self.node_embedder(x)['ne/bm/block4/mlp3']
         print(x.shape)
         return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
