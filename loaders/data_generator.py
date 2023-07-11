@@ -436,7 +436,7 @@ class DC_Generator(Base_Generator):
         for i in range(n_vertices):
             G.add_node(i)
         # Draw a cycle
-        cycle_length = np.random.randint(0,n_vertices-5)
+        cycle_length = np.random.randint(n_vertices/10,n_vertices-5)
         # Draw the corresponding nodes
         cycle = np.random.choice(n_vertices, size=cycle_length, replace=False)
         target = torch.zeros(n_vertices)
