@@ -371,7 +371,7 @@ class MBS_Generator(Base_Generator):
         num_examples = args['num_examples_' + name]
         n_vertices = args['n_vertices']
         vertex_proba = args['vertex_proba']
-        subfolder_name = 'Color_{}_{}_{}_{}_{}'.format(self.generative_model,
+        subfolder_name = 'MBS_{}_{}_{}_{}_{}'.format(self.generative_model,
                                                      num_examples,
                                                      n_vertices, vertex_proba, self.edge_density)
         path_dataset = os.path.join(path_dataset, subfolder_name)
@@ -417,7 +417,7 @@ class DC_Generator(Base_Generator):
         num_examples = args['num_examples_' + name]
         n_vertices = args['n_vertices']
         vertex_proba = args['vertex_proba']
-        subfolder_name = 'Color_{}_{}_{}_{}_{}'.format(self.generative_model,
+        subfolder_name = 'Cycle_{}_{}_{}_{}_{}'.format(self.generative_model,
                                                      num_examples,
                                                      n_vertices, vertex_proba, self.edge_density)
         path_dataset = os.path.join(path_dataset, subfolder_name)
