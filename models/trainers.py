@@ -180,6 +180,7 @@ class Graph_Classif_Exp(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         #g, target = batch
+        print(batch)
         logp = self(batch)
         loss = self.loss(logp, batch['target'])
         self.log('train_loss', loss)
