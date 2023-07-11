@@ -180,7 +180,6 @@ class Graph_Classif_Exp(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         #g, target = batch
-        print(batch)
         logp = self(batch)
         loss = self.loss(logp, batch['target'])
         self.log('train_loss', loss)
@@ -260,6 +259,7 @@ class Node_Classif_Exp(pl.LightningModule):
         return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
+        print(batch)
         logp = self(batch).permute(0,2,1)
         loss = self.loss(logp, batch['target'].long())
         self.log('train_loss', loss)
