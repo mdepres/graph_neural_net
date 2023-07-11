@@ -259,7 +259,7 @@ class Node_Classif_Exp(pl.LightningModule):
         return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
-        print(batch['input'].shape())
+        print(batch['input'].shape)
         logp = self(batch).permute(0,2,1)
         loss = self.loss(logp, batch['target'].long())
         self.log('train_loss', loss)
