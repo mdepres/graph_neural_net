@@ -393,6 +393,7 @@ class MBS_Generator(Base_Generator):
         nodes = torch.randperm(n_vertices)[:n_vertices//2]
         groups = torch.zeros((n_vertices,)) 
         groups[nodes] = 1
+        edge_target = torch.zeros((n_vertices**2,))
         
         for i in range(n_vertices):
             for j in range(i+1, n_vertices):
@@ -400,12 +401,13 @@ class MBS_Generator(Base_Generator):
                     G.add_edge(i,j)
                 elif groups[i]!=groups[j] and torch.rand(1).item()<self.connection_density:
                     G.add_edge(i,j)
+                    edge_target[i*n_vertices+j] = 1
         W = networkx.adjacency_matrix(G)
         W = W.todense()
         W = torch.as_tensor(W, dtype=torch.float)
         data = adjacency_matrix_to_tensor_representation(W)
         
-        return (data,groups)
+        return (data,edge_target) #groups)
 
 
 class DC_Generator(Base_Generator):

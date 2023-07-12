@@ -224,8 +224,8 @@ class Node_Classif_Exp(pl.LightningModule):
                 n_classes = 10, classifier=None,
                     lr=1e-3, scheduler_decay=0.5, scheduler_step=5):
         """
-        take a batch of graphs as
-        (bs, original_features, n_vertices, n_vertices)
+        Class for node classification-like experiment, using GNN-produced node embeddings.
+        take a batch of graphs as (bs, original_features, n_vertices, n_vertices)
         and return a batch of graph features (bs, n_classes)
         graphs must NOT have same size inside the batch when maskedtensors are used
         """
@@ -296,14 +296,14 @@ class Node_Classif_Exp(pl.LightningModule):
         },
     }
 
-class Node_Classif_With_Edges_Exp(pl.LightningModule):
+class Edge_Classif_Exp(pl.LightningModule):
     def __init__(self, original_features_num, num_blocks, in_features,
                 out_features, depth_of_mlp, block=block, constant_n_vertices=True, input_embed=False,
                 n_classes = 10, classifier=None,
                     lr=1e-3, scheduler_decay=0.5, scheduler_step=5):
         """
-        take a batch of graphs as
-        (bs, original_features, n_vertices, n_vertices)
+        Class for edge classification-like experiment, using GNN-produced edge embeddings.
+        take a batch of graphs as (bs, original_features, n_vertices, n_vertices)
         and return a batch of graph features (bs, n_classes)
         graphs must NOT have same size inside the batch when maskedtensors are used
         """
@@ -319,7 +319,6 @@ class Node_Classif_With_Edges_Exp(pl.LightningModule):
         self.node_embedder = Network(self.node_embedder_dic)
 
         if classifier is None:
-            #self.classifier = nn.Sequential(nn.Linear((num_blocks+1)*out_features, n_classes), nn.LogSoftmax(dim=1))
             self.classifier = nn.Sequential(nn.Linear(out_features, n_classes), nn.LogSoftmax(dim=1))
         else:
             self.classifier = classifier
@@ -335,7 +334,9 @@ class Node_Classif_With_Edges_Exp(pl.LightningModule):
     def forward(self, x):
         x = self.node_embedder(x)['ne/bm/block4/mlp3']
         print(x.shape)
-        return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
+        x = x.view(x.shape[0], x.shape[1]*x.shape[2],x.shape[3])
+        print(x.shape)
+        return self.classifier(x) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
         logp = self(batch).permute(0,2,1)

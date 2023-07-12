@@ -59,6 +59,25 @@ def get_node_model_exp(args, config_optim, n_classes):
     model =  Node_Classif_Exp(original_features_num, **args_dict)
     return model
 
+def get_edge_model_exp(args, config_optim, n_classes):  
+    args_dict =  {'lr' : config_optim['lr'],
+                'scheduler_decay': config_optim['scheduler_decay'],
+                'scheduler_step': config_optim['scheduler_step'],
+                'num_blocks': args['node_emb']['num_blocks'],
+                'in_features': args['node_emb']['in_features'],
+                'out_features': args['node_emb']['out_features'],
+                'depth_of_mlp': args['node_emb']['depth_of_mlp'],
+                'constant_n_vertices': False,
+                'classifier': None,
+                'n_classes': n_classes
+    }
+    original_features_num = args['original_features_num']
+    #node_emb = args['node_emb']
+    #print('Fetching model %s with (total = %s ) init %s and inside %s' % (node_emb['type'], node_emb['num_blocks'],
+    #    node_emb['block_init'], node_emb['block_inside']))
+    model =  Edge_Classif_Exp(original_features_num, **args_dict)
+    return model
+
 def get_model_benchmark(args, config_optim, name_data):  
     args_dict =  {'lr' : config_optim['lr'],
                 'scheduler_decay': config_optim['scheduler_decay'],

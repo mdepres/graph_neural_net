@@ -5,7 +5,7 @@ import argparse
 
 import torch
 import torch.backends.cudnn as cudnn
-from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp
+from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp, get_edge_model_exp
 import loaders.data_generator as dg
 from loaders.loaders import siamese_loader, node_classif_loader
 #from toolbox.optimizer import get_optimizer
@@ -88,7 +88,7 @@ def train(config):
         generator = dg.KCOL_Generator
         data['train']['k'] = config['k']
     elif config['problem'] == 'mbs' : # Min bisection problem
-        model_pl = get_node_model_exp(config_arch, config_optim, 2)
+        model_pl = get_edge_model_exp(config_arch, config_optim, 2) #get_node_model_exp(config_arch, config_optim, 2)
         generator = dg.MBS_Generator
     else: # QAP problem
         model_pl = get_siamese_model_exp(config_arch, config_optim) 
