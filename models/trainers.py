@@ -261,6 +261,7 @@ class Node_Classif_Exp(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         print(batch['input'].shape)
         logp = self(batch).permute(0,2,1)
+        print(logp.shape)
         loss = self.loss(logp, batch['target'].long())
         self.log('train_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), batch['target'])
