@@ -63,9 +63,8 @@ class Network(nn.Module):
     def forward(self, inputs):
         outputs = dict(inputs)
         for k, (node, ins) in self.graph.items():
-            print(k, ins, outputs.keys())
             #only compute nodes that are not supplied as inputs.
-            if ins == ['suffix']: # For some reason the first layer is incorrect
+            if ins == ['suffix']: # For some reason the first layer is 'suffix' instead of 'input'
                 ins = ['input']
             if k not in outputs:
                 outputs[k] = node(*[outputs[x] for x in ins])

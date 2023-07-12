@@ -58,13 +58,10 @@ def check_paths_update(config, name):
     return config
 
 def train(config):
-    """ Main func.
-    """
+    """ Main func """
     cpu = config['cpu']
-    #train, 
-    problem =config['problem']
+    problem = config['problem']
     config_arch = config['arch'] 
-    #test_enabled, 
     path_log = config['path_log']
     data = config['data']
     max_epochs = config['train']['epochs']
@@ -85,16 +82,15 @@ def train(config):
     utils.setup_env(cpu)
     
     print("Models saved in ", path_log)
-    #exp_helper = init_helper(problem) 
     
-    if config['problem'] == 'kcol' :
+    if config['problem'] == 'kcol' : # Coloring problem
         model_pl = get_node_model_exp(config_arch, config_optim, config['k'])
         generator = dg.KCOL_Generator
         data['train']['k'] = config['k']
-    elif config['problem'] == 'mbs' :
+    elif config['problem'] == 'mbs' : # Min bisection problem
         model_pl = get_node_model_exp(config_arch, config_optim, 2)
         generator = dg.MBS_Generator
-    else:
+    else: # QAP problem
         model_pl = get_siamese_model_exp(config_arch, config_optim) 
         generator = dg.QAP_Generator
     gene_train = generator('train', data['train'], data['path_dataset'])
@@ -107,7 +103,6 @@ def train(config):
                                     gene_train.constant_n_vertices)
         val_loader = siamese_loader(gene_val, batch_size,
                                     gene_val.constant_n_vertices, shuffle=False)
-    
     else:
         train_loader = node_classif_loader(gene_train, batch_size,
                                     gene_train.constant_n_vertices)

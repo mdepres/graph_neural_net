@@ -334,6 +334,7 @@ class Node_Classif_With_Edges_Exp(pl.LightningModule):
 
     def forward(self, x):
         x = self.node_embedder(x)['ne/bm/block4/mlp3']
+        print(x.shape)
         return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
