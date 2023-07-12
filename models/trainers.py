@@ -332,9 +332,12 @@ class Edge_Classif_Exp(pl.LightningModule):
         self.save_hyperparameters()
 
     def forward(self, x):
+        print(x.shape, self.out_features)
         x = self.node_embedder(x)['bm/block4/mlp3']
+        print(x.shape)
         x = x.permute(0,2,3,1)
         x = x.view(x.shape[0], x.shape[1]*x.shape[2],x.shape[3])
+        print(x.shape)
         return self.classifier(x) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
@@ -348,7 +351,6 @@ class Edge_Classif_Exp(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         target = batch['target']
-        print(batch.shape, self.out_features)
         logp = self(batch)#.permute(0,2,1)
         loss = self.loss(logp, target.long())
         self.log('val_loss', loss)
