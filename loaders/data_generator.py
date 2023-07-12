@@ -403,7 +403,7 @@ class MBS_Generator(Base_Generator):
         W = networkx.adjacency_matrix(G)
         W = W.todense()
         W = torch.as_tensor(W, dtype=torch.float)
-        data = adjacency_matrix_to_tensor_representation(W)[0]
+        data = adjacency_matrix_to_tensor_representation(W)
         
         return (data,groups)
 
