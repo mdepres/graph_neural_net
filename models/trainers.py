@@ -334,10 +334,8 @@ class Edge_Classif_Exp(pl.LightningModule):
     def forward(self, x):
         print(x['input'].shape, self.out_features)
         x = self.node_embedder(x)['bm/block4/mlp3']
-        print(x.shape)
         x = x.permute(0,2,3,1) # Putting the output dimension as last dimension
         #x = x.view(x.shape[0], x.shape[1]*x.shape[2],x.shape[3]) 
-        print(x.shape)
         return self.classifier(x)
 
     def training_step(self, batch, batch_idx):
