@@ -332,9 +332,8 @@ class Edge_Classif_Exp(pl.LightningModule):
         self.save_hyperparameters()
 
     def forward(self, x):
-        x = self.node_embedder(x)
-        print(x.keys())
-        x = x['bm/block4/mlp3']
+        x = self.node_embedder(x)['bm/block4/mlp3']
+        x = x.permute(0,2,3,1)
         print(x.shape)
         x = x.view(x.shape[0], x.shape[1]*x.shape[2],x.shape[3])
         print(x.shape)
