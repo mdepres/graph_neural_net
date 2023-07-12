@@ -1,4 +1,4 @@
-from models.trainers import Siamese_Node_Exp, Graph_Classif_Exp, Node_Classif_Exp #, scaled_block, block, block_sym, Graph_Classif_Exp
+from models.trainers import Siamese_Node_Exp, Graph_Classif_Exp, Node_Classif_Exp, Edge_Classif_Exp
 from toolbox.utils import load_json
 
 from data_benchmarking_gnns.data_helper import NUM_LABELS, NUM_CLASSES
