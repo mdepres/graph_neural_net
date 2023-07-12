@@ -348,8 +348,8 @@ class Edge_Classif_Exp(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         target = batch['target']
+        print(batch.shape, self.out_features)
         logp = self(batch)#.permute(0,2,1)
-        print(logp.shape)
         loss = self.loss(logp, target.long())
         self.log('val_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), target)
