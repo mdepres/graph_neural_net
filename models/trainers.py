@@ -255,7 +255,6 @@ class Node_Classif_Exp(pl.LightningModule):
         self.save_hyperparameters()
 
     def forward(self, x):
-        print("DICO", self.node_embedder_dic)
         x = self.node_embedder(x)['suffix']
         return self.classifier(x.permute(0,2,1)) # x arrives with dimension (bs, output_dim, n_vertices)
 
