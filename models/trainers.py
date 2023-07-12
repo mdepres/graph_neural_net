@@ -334,7 +334,7 @@ class Edge_Classif_Exp(pl.LightningModule):
     def forward(self, x):
         x = self.node_embedder(x)
         print(x.keys())
-        x = x['ne/bm/block4/mlp3']
+        x = x['bm/block4/mlp3']
         print(x.shape)
         x = x.view(x.shape[0], x.shape[1]*x.shape[2],x.shape[3])
         print(x.shape)
