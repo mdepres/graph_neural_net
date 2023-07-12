@@ -334,13 +334,12 @@ class Edge_Classif_Exp(pl.LightningModule):
     def forward(self, x):
         x = self.node_embedder(x)['bm/block4/mlp3']
         x = x.permute(0,2,3,1)
-        print(x.shape)
         x = x.view(x.shape[0], x.shape[1]*x.shape[2],x.shape[3])
-        print(x.shape)
         return self.classifier(x) # x arrives with dimension (bs, output_dim, n_vertices)
 
     def training_step(self, batch, batch_idx):
         logp = self(batch).permute(0,2,1)
+        print("train", logp.shape)
         loss = self.loss(logp, batch['target'].long())
         self.log('train_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), batch['target'])
