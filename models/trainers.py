@@ -335,8 +335,9 @@ class Edge_Classif_Exp(pl.LightningModule):
         print(x['input'].shape, self.out_features)
         x = self.node_embedder(x)['bm/block4/mlp3']
         print(x.shape)
-        x = x.permute(0,2,3,1)
-        x = x.view(x.shape[0], x.shape[1]*x.shape[2],x.shape[3])
+        #x = x.permute(0,2,3,1)
+        #x = x.view(x.shape[0], x.shape[1]*x.shape[2],x.shape[3])
+        x = x.view(x.shape[0],x.shape[1],x.shape[2]*x.shape[3])
         print(x.shape)
         return self.classifier(x) # x arrives with dimension (bs, output_dim, n_vertices)
 
