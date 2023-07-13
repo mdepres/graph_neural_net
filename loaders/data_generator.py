@@ -371,9 +371,9 @@ class MBS_Generator(Base_Generator):
         num_examples = args['num_examples_' + name]
         n_vertices = args['n_vertices']
         vertex_proba = args['vertex_proba']
-        subfolder_name = 'MBS_{}_{}_{}_{}_{}'.format(self.generative_model,
+        subfolder_name = 'MBS_{}_{}_{}_{}_{}_{}'.format(self.generative_model,
                                                      num_examples,
-                                                     n_vertices, vertex_proba, self.edge_density)
+                                                     n_vertices, vertex_proba, self.edge_density, self.connection_density)
         path_dataset = os.path.join(path_dataset, subfolder_name)
         super().__init__(name, path_dataset, num_examples)
         self.data = []
@@ -407,7 +407,7 @@ class MBS_Generator(Base_Generator):
         W = torch.as_tensor(W, dtype=torch.float)
         data = adjacency_matrix_to_tensor_representation(W)
         
-        return (data,edge_target) #groups)
+        return (data, groups)#edge_target) 
 
 
 class DC_Generator(Base_Generator):
