@@ -319,7 +319,7 @@ class Edge_Classif_Exp(pl.LightningModule):
         self.node_embedder = Network(self.node_embedder_dic)
 
         if classifier is None:
-            self.classifier = nn.Sequential(nn.Linear(out_features, n_classes), nn.LogSoftmax(dim=1))
+            self.classifier = nn.Sequential(nn.Linear(out_features, n_classes), nn.LogSoftmax(dim=-1))
         else:
             self.classifier = classifier
 
