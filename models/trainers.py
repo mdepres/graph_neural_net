@@ -162,7 +162,7 @@ class Graph_Classif_Exp(pl.LightningModule):
 
         if classifier is None:
             #self.classifier = nn.Sequential(nn.Linear((num_blocks+1)*out_features, n_classes), nn.LogSoftmax(dim=1))
-            self.classifier = nn.Sequential(nn.Linear(2*out_features, n_classes), nn.LogSoftmax(dim=1))
+            self.classifier = nn.Sequential(nn.Linear(2*out_features, n_classes), nn.LogSoftmax(dim=-1))
         else:
             self.classifier = classifier
 
@@ -242,7 +242,7 @@ class Node_Classif_Exp(pl.LightningModule):
 
         if classifier is None:
             #self.classifier = nn.Sequential(nn.Linear((num_blocks+1)*out_features, n_classes), nn.LogSoftmax(dim=1))
-            self.classifier = nn.Sequential(nn.Linear(out_features, n_classes), nn.LogSoftmax(dim=1))
+            self.classifier = nn.Sequential(nn.Linear(out_features, n_classes), nn.LogSoftmax(dim=-1))
         else:
             self.classifier = classifier
 
