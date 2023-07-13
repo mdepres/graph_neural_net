@@ -407,7 +407,7 @@ class MBS_Generator(Base_Generator):
         W = torch.as_tensor(W, dtype=torch.float)
         data = adjacency_matrix_to_tensor_representation(W)
         
-        return (data, groups)#edge_target) 
+        return (data, edge_target) #groups)
 
 
 class DC_Generator(Base_Generator):
