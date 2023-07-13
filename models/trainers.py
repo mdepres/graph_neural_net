@@ -341,6 +341,7 @@ class Edge_Classif_Exp(pl.LightningModule):
         logp = self(batch).permute(0,3,1,2) #Putting output dimension before data dimensions
         print("train", logp.shape)
         loss = self.loss(logp, batch['target'].long())
+        print(loss)
         self.log('train_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), batch['target'])
         self.log("train_acc", acc)
@@ -349,9 +350,7 @@ class Edge_Classif_Exp(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         target = batch['target']
         logp = self(batch).permute(0,3,1,2)
-        print(logp.shape, target.shape)
         loss = self.loss(logp, target.long())
-        print(loss)
         self.log('val_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), target)
         self.log("val_acc", acc)
