@@ -88,7 +88,7 @@ def train(config):
         generator = dg.KCOL_Generator
         data['train']['k'] = config['k']
     elif config['problem'] == 'mbs' : # Min bisection problem
-        model_pl = get_edge_model_exp(config_arch, config_optim, 3) #get_node_model_exp(config_arch, config_optim, 2) node or edge mode
+        model_pl = get_edge_model_exp(config_arch, config_optim, 2) #get_node_model_exp(config_arch, config_optim, 2) node or edge mode
         generator = dg.MBS_Generator
     else: # QAP problem
         model_pl = get_siamese_model_exp(config_arch, config_optim) 
