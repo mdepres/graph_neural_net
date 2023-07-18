@@ -10,14 +10,14 @@ k: 5
 
 data:
     train: # Train/Val data generation parameters
-        num_examples_train: 2000
-        num_examples_val: 100
-        n_vertices: 100
+        num_examples_train: 5000
+        num_examples_val: 1000
+        n_vertices: 150
         sparsify: None #Only works for not fgnns. Put to None if you don't want sparsifying
         generative_model: Regular # so far ErdosRenyi, Regular or BarabasiAlbert
         noise_model: ErdosRenyi
-        edge_density: 0.7
-        connection_density: 0.01
+        edge_density: 0.6
+        connection_density: 0.2
         vertex_proba: 1. # Parameter of the binomial distribution of vertices
         noise: 0.2
             
