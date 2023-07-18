@@ -16,8 +16,8 @@ data:
         sparsify: None #Only works for not fgnns. Put to None if you don't want sparsifying
         generative_model: Regular # so far ErdosRenyi, Regular or BarabasiAlbert
         noise_model: ErdosRenyi
-        edge_density: 0.1
-        connection_density: 0.4
+        edge_density: 0.6
+        connection_density: 0.2
         vertex_proba: 1. # Parameter of the binomial distribution of vertices
         noise: 0.2
             
