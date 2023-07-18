@@ -410,7 +410,7 @@ class MBS_Generator(Base_Generator):
         W = W.todense()
         W = torch.as_tensor(W, dtype=torch.float)
         data = adjacency_matrix_to_tensor_representation(W)
-        print(nb_external_edges/(nb_external_edges+nb_internal_edges))
+        print(nb_external_edges, nb_internal_edges, nb_external_edges/(nb_external_edges+nb_internal_edges))
         
         return (data, edge_target) #groups)
 
