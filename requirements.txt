@@ -4,7 +4,7 @@ networkx
 pytest
 sacred
 pyyaml
-neptune-contrib
+neptune
 psutil
 Cython
 sklearn
