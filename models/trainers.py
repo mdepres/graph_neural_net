@@ -355,11 +355,14 @@ class Edge_Classif_Exp(pl.LightningModule):
 
     def test_step(self, batch, batch_idx):
         target = batch['target']
-        logp = self(batch)
-        loss = self.loss(logp, target)
-        self.log('test_loss', loss)
+        logp = self(batch).permute(0,3,1,2)
+        #loss = self.loss(logp, target.long())
+        #self.log('test_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), target)
         self.log("test_acc", acc)
+        edge_classif = torch.argmax(logp)
+        print(edge_classif)
+        print(torch.sum(torch.where(target!=edge_classif and target==1,1,0)))
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.lr,

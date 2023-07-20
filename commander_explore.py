@@ -5,7 +5,7 @@ import argparse
 
 import torch
 import torch.backends.cudnn as cudnn
-from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp, get_edge_model_exp
+from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp, get_edge_model_exp, get_edge_model_test
 import loaders.data_generator as dg
 from loaders.loaders import siamese_loader, node_classif_loader
 #from toolbox.optimizer import get_optimizer
@@ -186,10 +186,7 @@ def test(config):
     #config_optim = config['train']
     #log_freq = config_optim['log_freq']
 
-    #print("Heading to Test.")
-    #global best_score, best_epoch
-    #best_score, best_epoch = -1, -1
-    #print("Current problem : ", problem)
+    print("Heading to Test.")
 
     use_cuda = not cpu and torch.cuda.is_available()
     device = 'cuda' if use_cuda else 'cpu'
@@ -198,24 +195,29 @@ def test(config):
     # init random seeds 
     utils.setup_env(cpu)
     
-    #print("Models saved in ", path_log)
-    #exp_helper = init_helper(problem) 
-    #model_pl = get_siamese_model_exp(config_arch, config_optim)
-    model = get_siamese_model_test(data['test']['path_model'])
-
     path_data_test = os.path.join(data['path_dataset'], 'test/')
     utils.check_dir(path_data_test)
-    generator = dg.QAP_Generator
-    #generator = dg.QAP_spectralGenerator
+    
+    if config['problem'] == 'kcol' : # Coloring problem
+        model_pl = get_node_model_test(config_arch, config_optim, config['k'])
+        generator = dg.KCOL_Generator
+        data['train']['k'] = config['k']
+    elif config['problem'] == 'mbs' : # Min bisection problem
+        model_pl = get_edge_model_test(data['test']['path_model'])
+        generator = dg.MBS_Generator
+    else:
+        model = get_siamese_model_test(data['test']['path_model'])
+        generator = dg.QAP_Generator
+
     gene_test = generator('test', data['test'], path_data_test)
     gene_test.load_dataset()
-    #gene_val = generator('val', data['train'], data['path_dataset'])
-    #gene_val.load_dataset()
-    test_loader = siamese_loader(gene_test, batch_size,
-                                  gene_test.constant_n_vertices, shuffle=False)
-    #val_loader = siamese_loader(gene_val, batch_size,
-    #                            gene_val.constant_n_vertices, shuffle=False)
     
+    if config['problem'] == 'qap':
+        test_loader = siamese_loader(gene_test, batch_size,
+                                  gene_test.constant_n_vertices, shuffle=False)
+    else:
+        test_loader = node_classif_loader(gene_test, batch_size,
+                                  gene_test.constant_n_vertices, shuffle=False)
     
     #optimizer, scheduler = get_optimizer(train,model)
     #print("Model #parameters : ", sum(p.numel() for p in model.parameters() if p.requires_grad))
@@ -232,7 +234,7 @@ def test(config):
     trainer = pl.Trainer(accelerator=device,precision=16)
     res_test = trainer.test(model, test_loader)
     return res_test
-    #return trainer
+
 #@ex.command
 """ def eval(cpu, train, arch, data, use_dgl, problem, use_model=None):
     print("Heading to evaluation.")
