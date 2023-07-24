@@ -360,7 +360,7 @@ class Edge_Classif_Exp(pl.LightningModule):
         #self.log('test_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), target)
         self.log("test_acc", acc)
-        edge_classif = torch.argmax(logp)
+        edge_classif = torch.argmax(logp.tensor.rename(None))
         print(edge_classif)
         print(torch.sum(torch.where(target!=edge_classif and target==1,1,0)))
 
