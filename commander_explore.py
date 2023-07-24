@@ -250,21 +250,27 @@ def predict(config):
         model_pl = get_edge_model_test(data['test']['path_model'])
         generator = dg.MBS_Generator
     else:
-        model = get_siamese_model_test(data['test']['path_model'])
+        model_pl = get_siamese_model_test(data['test']['path_model'])
         generator = dg.QAP_Generator
 
     gene_test = generator('test', data['test'], path_data_test)
     graph = gene_test.compute_example()
     
-    if config['problem'] == 'qap':
-        pred_loader = siamese_loader(graph, batch_size,
-                                  gene_test.constant_n_vertices, shuffle=False)
-    else:
-        pred_loader = node_classif_loader(graph, batch_size,
-                                  gene_test.constant_n_vertices, shuffle=False)
-
-    trainer = pl.Trainer(accelerator=device,precision=16)
-    res_predict = trainer.predict(model_pl, pred_loader)
+    logp = model_pl.forward(graph).permute(0,3,1,2)
+    edge_classif = torch.argmax(logp.tensor.rename(None))
+    print(edge_classif.shape)
+    mbs_pretty_print(batch['input'][0],edge_classif)
+    res_predict=0
+    
+    # if config['problem'] == 'qap':
+    #     pred_loader = siamese_loader(graph, batch_size,
+    #                               gene_test.constant_n_vertices, shuffle=False)
+    # else:
+    #     pred_loader = node_classif_loader(graph, batch_size,
+    #                               gene_test.constant_n_vertices, shuffle=False)
+    # 
+    # trainer = pl.Trainer(accelerator=device,precision=16)
+    # res_predict = trainer.predict(model_pl, pred_loader)
     return res_predict
 
 #@ex.automain
