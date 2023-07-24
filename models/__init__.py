@@ -82,7 +82,7 @@ def get_edge_model_test(name):
     split_name = name.split("/")[-4]
     cname = name.split(split_name)[0]
     config = load_json(cname+'config.json')
-    return Siamese_Node_Exp.load_from_checkpoint(name, original_features_num=2, node_emb=config['arch']['node_emb'])
+    return Edge_Classif_Exp.load_from_checkpoint(name, original_features_num=2, node_emb=config['arch']['node_emb'])
 
 def get_model_benchmark(args, config_optim, name_data):  
     args_dict =  {'lr' : config_optim['lr'],
