@@ -254,18 +254,18 @@ def predict(config):
         generator = dg.QAP_Generator
 
     gene_test = generator('test', data['test'], path_data_test)
-    gene_test.load_dataset()
+    graph = gene_test.compute_example()
     
     if config['problem'] == 'qap':
-        test_loader = siamese_loader(gene_test, batch_size,
+        test_loader = siamese_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     else:
-        test_loader = node_classif_loader(gene_test, batch_size,
+        test_loader = node_classif_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
 
     trainer = pl.Trainer(accelerator=device,precision=16)
-    res_test = trainer.test(model_pl, test_loader)
-    return res_test
+    res_predict = trainer.test(model_pl, test_loader)
+    return res_predict
 
 #@ex.automain
 def main():
