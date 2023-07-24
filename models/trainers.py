@@ -362,7 +362,7 @@ class Edge_Classif_Exp(pl.LightningModule):
         self.log("test_acc", acc)
         edge_classif = torch.argmax(logp.tensor.rename(None))
         print(edge_classif)
-        print(torch.sum(torch.where(target!=edge_classif and target==1,1,0)))
+        #print(torch.sum(torch.where(target!=edge_classif and target==1,1,0)))
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.lr,
