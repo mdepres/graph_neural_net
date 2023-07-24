@@ -1,6 +1,7 @@
 import pytorch_lightning as pl
 from toolbox.losses import triplet_loss
 from toolbox.metrics import accuracy_max
+from toolbox.utils import mbs_pretty_print
 from models.blocks_emb import *
 from models.utils import *
 
@@ -360,9 +361,13 @@ class Edge_Classif_Exp(pl.LightningModule):
         #self.log('test_loss', loss)
         acc = self.accuracy(logp.tensor.rename(None), target)
         self.log("test_acc", acc)
+        
+    def predict_step(self, batch, batch_idx):
+        logp = self(batch).permute(0,3,1,2)
         edge_classif = torch.argmax(logp.tensor.rename(None))
-        print(edge_classif)
-        #print(torch.sum(torch.where(target!=edge_classif and target==1,1,0)))
+        print(edge_classif.shape)
+        mbs_pretty_print(batch['input'][0],edge_classif)
+        
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.lr,

@@ -11,6 +11,7 @@ from scipy.optimize import linear_sum_assignment
 from networkx import to_numpy_array as nx_to_numpy_array
 #import dgl as dgl
 import torch.backends.cudnn as cudnn
+import networkx as nx
 
 def load_json(json_file):
     # Load the JSON file into a variable
@@ -252,3 +253,8 @@ def greedy_qap(A,B,perm,T,verbose=False):
             print(s,na,nb,acc)
     return s_best, na, nb, acc_best, T_best
 
+def mbs_pretty_print(adj, edge_classif):
+    """ Prints the graph with colors indicating which edges have been classified as internal or external. Uses networkx."""
+    adj = adj.numpy()
+    
+    networkx.draw_networkx(networkx.from_numpy_array(adj), edge_color=np.reshape(edges_classif.numpy(),(-1,1)))
