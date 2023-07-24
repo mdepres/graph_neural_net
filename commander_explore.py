@@ -232,7 +232,7 @@ def test(config):
     #model.to(device)
 
     trainer = pl.Trainer(accelerator=device,precision=16)
-    res_test = trainer.test(model, test_loader)
+    res_test = trainer.test(model_pl, test_loader)
     return res_test
 
 #@ex.command
