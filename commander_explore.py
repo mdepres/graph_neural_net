@@ -218,70 +218,60 @@ def test(config):
     else:
         test_loader = node_classif_loader(gene_test, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
-    
-    #optimizer, scheduler = get_optimizer(train,model)
-    #print("Model #parameters : ", sum(p.numel() for p in model.parameters() if p.requires_grad))
-
-    """ if not train['anew']:
-        try:
-            utils.load_model(model,device,train['start_model'])
-            print("Model found, using it.")
-        except RuntimeError:
-            print("Model not existing. Starting from scratch.")
- """
-    #model.to(device)
 
     trainer = pl.Trainer(accelerator=device,precision=16)
     res_test = trainer.test(model_pl, test_loader)
     return res_test
 
-#@ex.command
-""" def eval(cpu, train, arch, data, use_dgl, problem, use_model=None):
-    print("Heading to evaluation.")
+def predict(config):
+    """ Function to call on the prediction """
+    
+    cpu = config['cpu']
+    data = config['data']
+    batch_size = config['train']['batch_size']
+
+    print("Predicting.")
 
     use_cuda = not cpu and torch.cuda.is_available()
     device = 'cuda' if use_cuda else 'cpu'
     print('Using device:', device)
 
-    if use_model is None:
-        model = get_model_gen(arch)
-        model.to(device)
-        model = utils.load_model(model, device, train['start_model'])
+    # init random seeds 
+    utils.setup_env(cpu)
+    
+    path_data_test = os.path.join(data['path_dataset'], 'test/')
+    utils.check_dir(path_data_test)
+    
+    if config['problem'] == 'kcol' : # Coloring problem
+        model_pl = get_node_model_test(config_arch, config_optim, config['k'])
+        generator = dg.KCOL_Generator
+        data['train']['k'] = config['k']
+    elif config['problem'] == 'mbs' : # Min bisection problem
+        model_pl = get_edge_model_test(data['test']['path_model'])
+        generator = dg.MBS_Generator
     else:
-        model = use_model
+        model = get_siamese_model_test(data['test']['path_model'])
+        generator = dg.QAP_Generator
+
+    gene_test = generator('test', data['test'], path_data_test)
+    gene_test.load_dataset()
     
-    helper = init_helper(problem)
+    if config['problem'] == 'qap':
+        test_loader = siamese_loader(gene_test, batch_size,
+                                  gene_test.constant_n_vertices, shuffle=False)
+    else:
+        test_loader = node_classif_loader(gene_test, batch_size,
+                                  gene_test.constant_n_vertices, shuffle=False)
 
-    if use_dgl:
-        print(f"Arch : {arch['arch_gnn']}")
-        from loaders.siamese_loaders import get_uncollate_function
-        uncollate_function = get_uncollate_function(data['test']['n_vertices'],problem)
-        cur_crit = helper.criterion
-        cur_eval = helper.eval_function
-        helper.criterion = lambda output, target : cur_crit(uncollate_function(output), target)
-        helper.eval_function = lambda output, target : cur_eval(uncollate_function(output), target)
-
-
-    gene_test = helper.generator('test', data['test'], data['path_dataset'])
-    gene_test.load_dataset(use_dgl)
-    test_loader = get_loader(use_dgl,gene_test, train['batch_size'],
-                                 gene_test.constant_n_vertices,problem=problem)
-    
-    relevant_metric, loss = trainer.val_triplet(test_loader, model, helper, device,
-                                    epoch=0, eval_score=True,
-                                    val_test='test')
-     """
-    #key = create_key()
-    #filename_test = os.path.join(log_dir,  output_filename)
-    #print('Saving result at: ',filename_test)
-    #metric_to_save = helper.get_relevant_metric_with_name('test')
-    #utils.save_to_json(key, loss, metric_to_save, filename_test)
+    trainer = pl.Trainer(accelerator=device,precision=16)
+    res_test = trainer.test(model_pl, test_loader)
+    return res_test
 
 #@ex.automain
 def main():
     parser = argparse.ArgumentParser(description='Main file for creating experiments.')
-    parser.add_argument('command', metavar='c', choices=['train','test'],
-                    help='Command to execute : train or test')
+    parser.add_argument('command', metavar='c', choices=['train','test','predict'],
+                    help='Command to execute : train, test or predict on an example')
     parser.add_argument('--n_vertices', type=int, default=0)
     parser.add_argument('--noise', type=float, default=0)
     parser.add_argument('--edge_density', type=float, default=0)
@@ -296,6 +286,9 @@ def main():
     elif args.command=='test':#not implemented yet !!! generator pb with name!
         training=False
         default_test=True
+    elif args.command=='predict':
+        training=False
+        default_test=False
 
     config = get_config(args.config)
     if args.n_vertices != 0:
@@ -330,6 +323,8 @@ def main():
         trainer = train(config)
     if default_test: #or config['test_enabled']:
         res_test = test(config)
+    if not training and not default_test:
+        res_predict = predict(config)
 
 if __name__=="__main__":
     pl.seed_everything(3787, workers=True)
