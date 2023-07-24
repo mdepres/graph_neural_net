@@ -257,14 +257,14 @@ def predict(config):
     graph = gene_test.compute_example()
     
     if config['problem'] == 'qap':
-        test_loader = siamese_loader(graph, batch_size,
+        pred_loader = siamese_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     else:
-        test_loader = node_classif_loader(graph, batch_size,
+        pred_loader = node_classif_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
 
     trainer = pl.Trainer(accelerator=device,precision=16)
-    res_predict = trainer.test(model_pl, test_loader)
+    res_predict = trainer.predict(model_pl, pred_loader)
     return res_predict
 
 #@ex.automain
