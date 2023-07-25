@@ -278,4 +278,4 @@ def mbs_pretty_print(adj, edge_classif, target):
     plt.savefig("graph.png")
     
     acc = torchmetrics.Accuracy(task='multiclass', num_classes=2)
-    print(acc(edge_classif[0],target))
+    print(acc(edge_classif[0].cpu(),target.cpu()))
