@@ -82,3 +82,7 @@ def node_classif_loader(data, batch_size, constant_n_vertices, shuffle=True):
                                         num_workers=0, collate_fn=collate_classif)
     return DataLoader(data, batch_size=batch_size, shuffle=shuffle,
                                     num_workers=0, collate_fn=collate_classif_explore)
+
+def predict_classif_loader(data, batch_size=batch_size, constant_n_vertices, shuffle=False):
+    assert len(data) > 0
+    return DataLoader(data, batch_size=batch_size, shuffle=shuffle, num_workers=0, collate_fn=collate_classif_predict)

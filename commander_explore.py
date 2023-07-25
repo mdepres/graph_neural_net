@@ -7,7 +7,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp, get_edge_model_exp, get_edge_model_test
 import loaders.data_generator as dg
-from loaders.loaders import siamese_loader, node_classif_loader, collate_classif_predict
+from loaders.loaders import siamese_loader, node_classif_loader, collate_classif_predict, predict_classif_loader
 #from toolbox.optimizer import get_optimizer
 import toolbox.utils as utils
 from datetime import datetime
@@ -255,25 +255,25 @@ def predict(config):
 
     gene_test = generator('test', data['test'], path_data_test)
     graph = gene_test.compute_example()
-    print(graph)
-    graph = collate_classif_predict(graph)
-    print(graph['input'].shape)
+#     print(graph)
+#     graph = collate_classif_predict(graph)
+#     print(graph['input'].shape)
+#     
+#     logp = model_pl.forward(graph).permute(0,3,1,2)
+#     edge_classif = torch.argmax(logp.tensor.rename(None))
+#     print(edge_classif.shape)
+#     mbs_pretty_print(batch['input'][0],edge_classif)
+#     res_predict=0
     
-    logp = model_pl.forward(graph).permute(0,3,1,2)
-    edge_classif = torch.argmax(logp.tensor.rename(None))
-    print(edge_classif.shape)
-    mbs_pretty_print(batch['input'][0],edge_classif)
-    res_predict=0
+    if config['problem'] == 'qap':
+        pred_loader = siamese_loader(graph, batch_size,
+                                  gene_test.constant_n_vertices, shuffle=False)
+    else:
+        pred_loader = predict_classif_loader(graph, batch_size,
+                                  gene_test.constant_n_vertices, shuffle=False)
     
-    # if config['problem'] == 'qap':
-    #     pred_loader = siamese_loader(graph, batch_size,
-    #                               gene_test.constant_n_vertices, shuffle=False)
-    # else:
-    #     pred_loader = node_classif_loader(graph, batch_size,
-    #                               gene_test.constant_n_vertices, shuffle=False)
-    # 
-    # trainer = pl.Trainer(accelerator=device,precision=16)
-    # res_predict = trainer.predict(model_pl, pred_loader)
+    trainer = pl.Trainer(accelerator=device,precision=16)
+    res_predict = trainer.predict(model_pl, pred_loader)
     return res_predict
 
 #@ex.automain
