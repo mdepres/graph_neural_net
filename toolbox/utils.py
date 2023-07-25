@@ -13,6 +13,7 @@ from networkx import to_numpy_array as nx_to_numpy_array
 import torch.backends.cudnn as cudnn
 import networkx as nx
 import matplotlib.pyplot as plt
+import torchmetrics
 
 def load_json(json_file):
     # Load the JSON file into a variable
@@ -275,3 +276,6 @@ def mbs_pretty_print(adj, edge_classif, target):
         
     nx.draw_networkx(nx.from_edgelist(edgelist), edge_color=edge_color)
     plt.savefig("graph.png")
+    
+    acc = torchmetrics.Accuracy(task='multiclass', num_classes=2)
+    print(acc(edge_classif[0],target))
