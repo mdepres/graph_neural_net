@@ -253,7 +253,7 @@ def predict(config):
         model_pl = get_siamese_model_test(data['test']['path_model'])
         generator = dg.QAP_Generator
 
-    gene_test = generator('test', data['test'], path_data_test)=
+    gene_test = generator('test', data['test'], path_data_test)
     
     graph = [gene_test.compute_example()[0]]
 #     print(graph)
