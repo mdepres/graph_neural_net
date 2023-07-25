@@ -255,7 +255,7 @@ def predict(config):
 
     gene_test = generator('test', data['test'], path_data_test)
     graph = gene_test.compute_example()
-    print(graph.shape)
+    print(graph)
     graph = collate_classif_predict(graph)
     print(graph['input'].shape)
     
