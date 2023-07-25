@@ -254,7 +254,9 @@ def predict(config):
         generator = dg.QAP_Generator
 
     gene_test = generator('test', data['test'], path_data_test)
-    graph = collate_classif_predict(gene_test.compute_example()[None,:])
+    graph = gene_test.compute_example()
+    print(graph.shape)
+    graph = collate_classif_predict(graph)
     print(graph['input'].shape)
     
     logp = model_pl.forward(graph).permute(0,3,1,2)
