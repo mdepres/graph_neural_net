@@ -266,4 +266,4 @@ def mbs_pretty_print(adj, edge_classif):
         else:
             edge_color.append("red")
     nx.draw_networkx(nx.from_numpy_array(adj), edge_color=edge_color)
-    plt.show()
+    plt.savefig("graph.png")
