@@ -256,14 +256,17 @@ def greedy_qap(A,B,perm,T,verbose=False):
 
 def mbs_pretty_print(adj, edge_classif):
     """ Prints the graph with colors indicating which edges have been classified as internal or external. Uses networkx."""
-    adj = adj.cpu().detach().numpy()
-    
-    edge_classif=np.reshape(edge_classif.cpu().detach().numpy(),(-1,))
+    edgelist = []
     edge_color=[]
-    for el in edge_classif:
-        if el==0:
-            edge_color.append("black")
-        else:
-            edge_color.append("red")
-    nx.draw_networkx(nx.from_numpy_array(adj), edge_color=edge_color)
+    
+    for i in range(adj.shape[0]):
+        for j in range(adj.shape[1]):
+            if adj[i][j]==1:
+                edgelist.append((i,j))
+                if edge_classif[i][j]==0:
+                    edge_color.append("black")
+                else:
+                    edge_color.append("red")
+        
+    nx.draw_networkx(nx.from_edgelist(edgelist), edge_color=edge_color)
     plt.savefig("graph.png")
