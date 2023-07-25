@@ -12,6 +12,7 @@ from networkx import to_numpy_array as nx_to_numpy_array
 #import dgl as dgl
 import torch.backends.cudnn as cudnn
 import networkx as nx
+import matplotlib.pyplot as plt
 
 def load_json(json_file):
     # Load the JSON file into a variable
@@ -265,3 +266,4 @@ def mbs_pretty_print(adj, edge_classif):
         else:
             edge_color.append("red")
     nx.draw_networkx(nx.from_numpy_array(adj), edge_color=edge_color)
+    plt.show()
