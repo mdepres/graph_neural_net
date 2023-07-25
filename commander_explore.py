@@ -255,7 +255,7 @@ def predict(config):
 
     gene_test = generator('test', data['test'], path_data_test)
     gene_test.load_dataset()
-    print(gene_test.data[0])
+    
     graph = [gene_test.compute_example()]
 #     print(graph)
 #     graph = collate_classif_predict(graph)
@@ -271,7 +271,7 @@ def predict(config):
         pred_loader = siamese_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     else:
-        pred_loader = predict_classif_loader(graph, batch_size,
+        pred_loader = predict_classif_loader(gene_test, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     
     trainer = pl.Trainer(accelerator=device,precision=16)
