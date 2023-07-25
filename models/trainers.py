@@ -365,7 +365,7 @@ class Edge_Classif_Exp(pl.LightningModule):
     def predict_step(self, batch, batch_idx):
         logp = self(batch).permute(0,3,1,2)
         edge_classif = torch.argmax(logp.tensor.rename(None))
-        print(edge_classif.shape)
+        print(logp.shape, edge_classif.shape)
         mbs_pretty_print(batch['input'][0],edge_classif)
         
 
