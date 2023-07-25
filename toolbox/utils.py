@@ -259,6 +259,7 @@ def mbs_pretty_print(adj, edge_classif):
     edgelist = []
     edge_color=[]
     
+    print(adj.shape, edge_classif.shape)
     for i in range(adj.shape[0]):
         for j in range(adj.shape[1]):
             if adj[i][j]==1:
