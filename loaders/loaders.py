@@ -71,7 +71,9 @@ def collate_classif_explore(samples_list):
     input_list = [input1 for input1, _ in samples_list]
     labels = [lab for _,lab in samples_list]
     return {'input': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),'target': torch.tensor(labels)}
-  
+
+def collate_classif_predict(samples_list):
+    return {'input': maskedtensor.from_list(samples_list, dims=(1, 2), base_name='N')}
 
 def node_classif_loader(data, batch_size, constant_n_vertices, shuffle=True):
     assert len(data) > 0

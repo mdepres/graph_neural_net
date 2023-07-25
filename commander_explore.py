@@ -7,7 +7,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp, get_edge_model_exp, get_edge_model_test
 import loaders.data_generator as dg
-from loaders.loaders import siamese_loader, node_classif_loader
+from loaders.loaders import siamese_loader, node_classif_loader, collate_classif_predict
 #from toolbox.optimizer import get_optimizer
 import toolbox.utils as utils
 from datetime import datetime
@@ -254,7 +254,7 @@ def predict(config):
         generator = dg.QAP_Generator
 
     gene_test = generator('test', data['test'], path_data_test)
-    graph = {'input' : gene_test.compute_example()}
+    graph = collate_classif_predict(gene_test.compute_example())
     
     logp = model_pl.forward(graph).permute(0,3,1,2)
     edge_classif = torch.argmax(logp.tensor.rename(None))
