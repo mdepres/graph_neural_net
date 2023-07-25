@@ -253,10 +253,9 @@ def predict(config):
         model_pl = get_siamese_model_test(data['test']['path_model'])
         generator = dg.QAP_Generator
 
-    gene_test = generator('test', data['test'], path_data_test)
-    gene_test.load_dataset()
+    gene_test = generator('test', data['test'], path_data_test)=
     
-    graph = [gene_test.compute_example()]
+    graph = [gene_test.compute_example()[0]]
 #     print(graph)
 #     graph = collate_classif_predict(graph)
 #     print(graph['input'].shape)
@@ -271,7 +270,7 @@ def predict(config):
         pred_loader = siamese_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     else:
-        pred_loader = predict_classif_loader(gene_test, batch_size,
+        pred_loader = predict_classif_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     
     trainer = pl.Trainer(accelerator=device,precision=16)
