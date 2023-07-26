@@ -16,8 +16,8 @@ data:
         sparsify: None #Only works for not fgnns. Put to None if you don't want sparsifying
         generative_model: Regular # so far ErdosRenyi, Regular or BarabasiAlbert
         noise_model: ErdosRenyi
-        edge_density: 0.8
-        connection_density: 0.3
+        edge_density: 0.6
+        connection_density: 0.2
         vertex_proba: 1. # Parameter of the binomial distribution of vertices
         noise: 0.2
             
@@ -32,7 +32,7 @@ data:
         connection_density: 0.2
         vertex_proba: 1. # Parameter of the binomial distribution of vertices
         noise: 0.05
-        path_model: '/home/jovyan/experiments-gnn/mbs/experiment_mbs/node_embedding_rec_Regular_100_0.6/07-18-23-15-13'
+        path_model: '/home/jovyan/experiments-gnn/mbs/experiment_mbs/node_embedding_rec_Regular_100_0.6/07-18-23-09-15/mbs_experiment_mbs/tsuo9fdx/checkpoints/epoch=29-step=4710.ckpt'
 
 
 train: # Training parameters
