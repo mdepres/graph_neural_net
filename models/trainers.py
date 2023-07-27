@@ -351,15 +351,15 @@ class Edge_Classif_Exp(pl.LightningModule):
         logp = self(batch).permute(0,3,1,2)
         loss = self.loss(logp, target.long())
         self.log('val_loss', loss)
-        acc = self.accuracy(logp.tensor.rename(None), target)
+        #acc = self.accuracy(logp.tensor.rename(None), target)
+        acc = self.accuracy(batch['input'][0], logp.tensor.rename(None), target)
         self.log("val_acc", acc)
 
     def test_step(self, batch, batch_idx):
         target = batch['target']
         logp = self(batch).permute(0,3,1,2)
-        #loss = self.loss(logp, target.long())
-        #self.log('test_loss', loss)
-        acc = self.accuracy(logp.tensor.rename(None), target)
+        #acc = self.accuracy(logp.tensor.rename(None), target)
+        acc = self.accuracy(batch['input'][0], logp.tensor.rename(None), target)
         self.log("test_acc", acc)
         
     def predict_step(self, batch, batch_idx):
