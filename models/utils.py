@@ -86,7 +86,8 @@ def bisection_accuracy(adj, logp, target):
     true_internal_acc = (0,0)
     true_external_acc = (0,0)
     
-    edge_classif = torch.argmax(logp.tensor.rename(None), dim=1)
+    edge_classif = torch.argmax(logp, dim=1)
+    print(adj)
     
     for b in range(adj.shape[0]):
         for i in range(adj.shape[1]):
