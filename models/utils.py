@@ -78,16 +78,15 @@ class Network(nn.Module):
 
 def bisection_accuracy(adj, logp, target):
     """ Enter only adjacency in shape (bs,n_nodes,n_nodes) and logp in shape (bs,2,n_nodes,n_nodes) """
-    acc = (0,0)
-    non_edges_acc = (0,0)
-    internal_edges_acc = (0,0)
-    external_edges_acc = (0,0)
-    edges_acc = (0,0)
-    true_internal_acc = (0,0)
-    true_external_acc = (0,0)
+    acc = [0,0]
+    non_edges_acc = [0,0]
+    internal_edges_acc = [0,0]
+    external_edges_acc = [0,0]
+    edges_acc = [0,0]
+    true_internal_acc = [0,0]
+    true_external_acc = [0,0]
     
     edge_classif = torch.argmax(logp, dim=1)
-    print(adj)
     
     for b in range(adj.shape[0]):
         for i in range(adj.shape[1]):
