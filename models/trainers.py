@@ -339,6 +339,7 @@ class Edge_Classif_Exp(pl.LightningModule):
         return self.classifier(x)
 
     def training_step(self, batch, batch_idx):
+        target = batch['target']
         logp = self(batch).permute(0,3,1,2) #Putting output dimension before data dimensions
         loss = self.loss(logp.contiguous(), batch['target'].long())
         self.log('train_loss', loss)
