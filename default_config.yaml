@@ -32,11 +32,11 @@ data:
         connection_density: 0.2
         vertex_proba: 1. # Parameter of the binomial distribution of vertices
         noise: 0.05
-        path_model: '/home/jovyan/experiments-gnn/mbs/experiment_mbs/node_embedding_rec_Regular_100_0.6/07-18-23-09-15/mbs_experiment_mbs/tsuo9fdx/checkpoints/epoch=29-step=4710.ckpt'
+        path_model: '/home/jovyan/experiments-gnn/mbs/experiment_mbs/node_embedding_rec_Regular_30_0.8/07-27-23-12-17/mbs_experiment_mbs/ui60sl3y/checkpoints/epoch=29-step=4710.ckpt'
 
 
 train: # Training parameters
-    epochs: 30
+    epochs: 15
     batch_size:  32 #10 #8 #32 #16 #64
     lr: !!float 1e-3 #1e-3
     scheduler_step: 3
