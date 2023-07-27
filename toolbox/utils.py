@@ -260,11 +260,13 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
     edgelist = []
     edge_color = []
     node_color = []
+    nodes = []
     
     print(adj.shape, edge_classif.shape)
     for i in range(adj.shape[0]):
         if groups[i]==0:
             node_color.append("blue")
+            nodes.append(i)
         else:
             node_color.append("red")
         for j in range(adj.shape[1]):
@@ -278,8 +280,10 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
                     edge_color.append("orange")
                 else:
                     edge_color.append("red")
-        
-    nx.draw_networkx(nx.from_edgelist(edgelist), node_color=node_color, edge_color=edge_color)
+    
+    G = nx.from_edgelist(edgelist)
+    pos = bipartite_layout(G, nodes)
+    nx.draw_networkx(G, pos=pos, node_color=node_color, edge_color=edge_color)
     plt.savefig("graph.png")
     
     acc = torchmetrics.Accuracy(task='multiclass', num_classes=2)
