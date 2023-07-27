@@ -84,8 +84,7 @@ def predict_node_explore(samples_list):
     graphs = [inp for inp,_,_ in samples_list]
     labels = [lab for _,lab,_ in samples_list]
     groups = [gr for _,_,gr in samples_list]
-    print(groups)
-    return {'input': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),'target': torch.tensor(labels), 'groups': torch.tensor(groups)}
+    return {'input': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),'target': torch.stack(labels), 'groups': torch.stack(groups)}
 
 def predict_classif_loader(data, batch_size, constant_n_vertices, shuffle=True):
     assert len(data) > 0
