@@ -255,13 +255,18 @@ def greedy_qap(A,B,perm,T,verbose=False):
             print(s,na,nb,acc)
     return s_best, na, nb, acc_best, T_best
 
-def mbs_pretty_print(adj, edge_classif, target):
+def mbs_pretty_print(adj, edge_classif, target, groups):
     """ Prints the graph with colors indicating which edges have been classified as internal or external. Uses networkx."""
     edgelist = []
-    edge_color=[]
+    edge_color = []
+    node_color = []
     
     print(adj.shape, edge_classif.shape)
     for i in range(adj.shape[0]):
+        if groups[i]==0:
+            node_color.append("blue")
+        else:
+            node_color.append("red")
         for j in range(adj.shape[1]):
             if adj[i][j]==1:
                 edgelist.append((i,j))
@@ -274,7 +279,7 @@ def mbs_pretty_print(adj, edge_classif, target):
                 else:
                     edge_color.append("red")
         
-    nx.draw_networkx(nx.from_edgelist(edgelist), edge_color=edge_color)
+    nx.draw_networkx(nx.from_edgelist(edgelist), node_color=node_color, edge_color=edge_color)
     plt.savefig("graph.png")
     
     acc = torchmetrics.Accuracy(task='multiclass', num_classes=2)

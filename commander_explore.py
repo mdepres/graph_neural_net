@@ -7,7 +7,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from models import get_siamese_model_exp, get_siamese_model_test, get_node_model_exp, get_edge_model_exp, get_edge_model_test
 import loaders.data_generator as dg
-from loaders.loaders import siamese_loader, node_classif_loader
+from loaders.loaders import siamese_loader, node_classif_loader, predict_classif_loader
 #from toolbox.optimizer import get_optimizer
 import toolbox.utils as utils
 from datetime import datetime
@@ -261,7 +261,7 @@ def predict(config):
         pred_loader = siamese_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     else:
-        pred_loader = node_classif_loader(graph, batch_size,
+        pred_loader = predict_classif_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     
     trainer = pl.Trainer(accelerator=device,precision=16)

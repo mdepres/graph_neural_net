@@ -80,3 +80,16 @@ def node_classif_loader(data, batch_size, constant_n_vertices, shuffle=True):
     return DataLoader(data, batch_size=batch_size, shuffle=shuffle,
                                     num_workers=0, collate_fn=collate_classif_explore)
 
+def predict_node_explore(samples_list):
+    graphs = [inp for inp,_,_ in samples_list]
+    labels = [lab for _,lab,_ in samples_list]
+    groups = [gr for _,_,gr in samples_list]
+    return {'input': maskedtensor.from_list(graphs, dims=(1, 2), base_name='N'),'target': torch.tensor(labels), 'groups': groups}
+
+def predict_classif_loader(data, batch_size, constant_n_vertices, shuffle=True):
+    assert len(data) > 0
+    if constant_n_vertices:
+        return DataLoader(data, batch_size=batch_size, shuffle=shuffle,
+                                        num_workers=0, collate_fn=predict_node_explore)
+    return DataLoader(data, batch_size=batch_size, shuffle=shuffle,
+                                    num_workers=0, collate_fn=predict_node_explore)

@@ -381,7 +381,7 @@ class MBS_Generator(Base_Generator):
         self.n_vertices_sampler = torch.distributions.Binomial(n_vertices, vertex_proba)
         utils.check_dir(self.path_dataset)
 
-    def compute_example(self):
+    def compute_example_predict(self):
         """
         Compute adjacencies and planted assignement
         """
@@ -411,8 +411,11 @@ class MBS_Generator(Base_Generator):
         W = torch.as_tensor(W, dtype=torch.float)
         data = adjacency_matrix_to_tensor_representation(W)
         
-        return (data, edge_target) #groups)
-
+        return (data, edge_target, groups)
+    
+    def compute_example(self):
+        data, edge_target, groups = self.compute_example_predict()
+        return (data, edge_target)
 
 class DC_Generator(Base_Generator):
     """ Detect cycle, a simple problem """
