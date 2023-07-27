@@ -80,8 +80,6 @@ def bisection_accuracy(adj, logp, target):
     """ Enter only adjacency in shape (bs,n_nodes,n_nodes) and logp in shape (bs,2,n_nodes,n_nodes) """
     acc = [0,0]
     non_edges_acc = [0,0]
-    internal_edges_acc = [0,0]
-    external_edges_acc = [0,0]
     edges_acc = [0,0]
     true_internal_acc = [0,0]
     true_external_acc = [0,0]
@@ -101,10 +99,6 @@ def bisection_accuracy(adj, logp, target):
                             true_internal_acc[0]+=1
                     else: #There is no edge
                         non_edges_acc[0]+=1
-                    if target[b][i][j]==1:
-                        external_edges_acc[0]+=1
-                    else:
-                        internal_edges_acc[0]+=1
                 acc[1]+=1
                 if adj[b][i][j]==1: #There is an edge
                     edges_acc[1]+=1
@@ -114,14 +108,10 @@ def bisection_accuracy(adj, logp, target):
                         true_internal_acc[1]+=1
                 else: #There is no edge
                     non_edges_acc[1]+=1
-                if target[b][i][j]==1:
-                    external_edges_acc[1]+=1
-                else:
-                    internal_edges_acc[1]+=1
+    
     print("Acurracy", acc[0]/acc[1])            
     print("True edges vs non edges", edges_acc[0]/edges_acc[1], non_edges_acc[0]/non_edges_acc[1])
     print("True edges : external vs internal", true_external_acc[0]/true_external_acc[1], true_internal_acc[0]/true_internal_acc[1])
-    print("external vs internal", external_edges_acc[0]/external_edges_acc[1], internal_edges_acc[0]/internal_edges_acc[1])
     
     return acc[0]/acc[1]
                         
