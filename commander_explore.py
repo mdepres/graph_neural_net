@@ -255,7 +255,7 @@ def predict(config):
 
     gene_test = generator('test', data['test'], path_data_test)
     
-    graph = [gene_test.compute_example()]
+    graph = [gene_test.compute_example_predict()]
 
     if config['problem'] == 'qap':
         pred_loader = siamese_loader(graph, batch_size,
