@@ -342,7 +342,8 @@ class Edge_Classif_Exp(pl.LightningModule):
         logp = self(batch).permute(0,3,1,2) #Putting output dimension before data dimensions
         loss = self.loss(logp.contiguous(), batch['target'].long())
         self.log('train_loss', loss)
-        acc = self.accuracy(logp.tensor.rename(None), batch['target'])
+        #acc = self.accuracy(logp.tensor.rename(None), batch['target'])
+        acc = self.accuracy(batch['input'][0], logp.tensor.rename(None), target)
         self.log("train_acc", acc)
         return loss
 
