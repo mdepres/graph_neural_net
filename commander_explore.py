@@ -127,7 +127,7 @@ def train(config):
         lr_monitor = LearningRateMonitor(logging_interval='epoch')
         trainer = pl.Trainer(accelerator=device,max_epochs=max_epochs,logger=logger,log_every_n_steps=log_freq,callbacks=[lr_monitor],precision="16-mixed")
     else:
-        trainer = pl.Trainer(accelerator=device,max_epochs=max_epochs,log_every_n_steps=log_freq,precision=16)
+        trainer = pl.Trainer(accelerator=device,max_epochs=max_epochs,log_every_n_steps=log_freq,precision="16-mixed")
     trainer.fit(model_pl, train_loader, val_loader)
 
     return trainer
@@ -219,7 +219,7 @@ def test(config):
         test_loader = node_classif_loader(gene_test, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
 
-    trainer = pl.Trainer(accelerator=device,precision=16)
+    trainer = pl.Trainer(accelerator=device,precision="16-mixed")
     res_test = trainer.test(model_pl, test_loader)
     return res_test
 
@@ -264,7 +264,7 @@ def predict(config):
         pred_loader = predict_classif_loader(graph, batch_size,
                                   gene_test.constant_n_vertices, shuffle=False)
     
-    trainer = pl.Trainer(accelerator=device,precision=16)
+    trainer = pl.Trainer(accelerator=device,precision="16-mixed")
     res_predict = trainer.predict(model_pl, pred_loader)
     return res_predict
 
