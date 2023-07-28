@@ -283,8 +283,10 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
         if target[i][j]==edge_classif[0][i][j] :
             edge_color.append("black")
         elif target[i][j]==0 :
+            print(i,j)
             edge_color.append("blue")
         else:
+            print(i,j)
             edge_color.append("red")
     
     #pos = nx.bipartite_layout(G, nodes)
