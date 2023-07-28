@@ -23,7 +23,7 @@ data:
             
     test: #Test data generation parameters not used yet...
         num_examples_test: 300
-        n_vertices: 30
+        n_vertices: 100
         sparsify: None #Only works for not fgnns. Put to None if you don't want sparsifying
         #custom: No #If No, keeps the data_generation from train, just a failsafe so people consciously have to activate custom test
         generative_model: ErdosRenyi # so far ErdosRenyi, Regular or BarabasiAlbert
