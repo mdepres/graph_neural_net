@@ -259,18 +259,9 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
     """ Prints the graph with colors indicating which edges have been classified as internal or external. Uses networkx."""
     edgelist = []
     edge_color = []
-    node_color = []
-    nodes = []
     
     groups = groups.cpu().detach().numpy()
     for i in range(adj.shape[0]):
-        print(i, groups[i])
-        if groups[i]==0:
-            node_color.append("blue")
-            nodes.append(i)
-        else:
-            node_color.append("red")
-        print(node_color)
         for j in range(adj.shape[1]):
             if adj[i][j]==1:
                 edgelist.append((i,j))
@@ -284,7 +275,17 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
                     edge_color.append("red")
     
     G = nx.from_edgelist(edgelist)
-    print(G.nodes())
+    
+    node_color = []
+    nodes = []
+    nodelist = G.nodes()
+    for n in nodelist:
+        if groups[n]==0:
+            nodes.append(n)
+            node_color.append("blue")
+        else:
+            node_color.append("red")
+    
     pos = nx.bipartite_layout(G, nodes)
     nx.draw_networkx(G, pos=pos, node_color=node_color, edge_color=edge_color)
     plt.savefig("graph.png")
