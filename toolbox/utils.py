@@ -288,6 +288,8 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
         else:
             print("red", i,j)
             edge_color.append("red")
+            
+    print(target)
     
     pos = nx.bipartite_layout(G, nodes)
     nx.draw_networkx(G, pos= pos, node_color=node_color, edge_color=edge_color) #pos=pos,
