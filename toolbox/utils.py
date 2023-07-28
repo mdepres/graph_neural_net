@@ -280,12 +280,10 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
     
     edgelist = G.edges()
     for i,j in edgelist:
-        if edge_classif[0][i][j]==0 and target[i][j]==0:
+        if target[i][j]==edge_classif[0][i][j] :
             edge_color.append("black")
-        elif edge_classif[0][i][j]==0:
+        elif target[i][j]==0 :
             edge_color.append("blue")
-        elif edge_classif[0][i][j]==1 and target[i][j]==0:
-            edge_color.append("orange")
         else:
             edge_color.append("red")
     
