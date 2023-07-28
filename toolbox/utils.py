@@ -264,6 +264,7 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
     
     print(groups)
     for i in range(adj.shape[0]):
+        print(i, groups[i])
         if groups[i]==0:
             node_color.append("blue")
             nodes.append(i)
