@@ -402,10 +402,11 @@ class MBS_Generator(Base_Generator):
                 if groups[i]==groups[j] and torch.rand(1).item()<self.edge_density:
                     G.add_edge(i,j)
                     nb_internal_edges+=1
-                elif groups[i]!=groups[j] and torch.rand(1).item()<self.connection_density:
-                    G.add_edge(i,j)
+                elif groups[i]!=groups[j] :
                     edge_target[i,j] = 1
-                    nb_external_edges+=1
+                    if torch.rand(1).item()<self.connection_density:
+                        G.add_edge(i,j)
+                        nb_external_edges+=1
         W = networkx.adjacency_matrix(G)
         W = W.todense()
         W = torch.as_tensor(W, dtype=torch.float)
