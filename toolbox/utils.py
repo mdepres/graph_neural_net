@@ -262,7 +262,7 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
     node_color = []
     nodes = []
     
-    print(groups)
+    groups = groups.detach().numpy()
     for i in range(adj.shape[0]):
         print(i, groups[i])
         if groups[i]==0:

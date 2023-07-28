@@ -411,7 +411,7 @@ class MBS_Generator(Base_Generator):
         W = torch.as_tensor(W, dtype=torch.float)
         data = adjacency_matrix_to_tensor_representation(W)
         
-        return (data, edge_target, groups.detach().numpy())
+        return (data, edge_target, groups)
     
     def compute_example(self):
         data, edge_target, groups = self.compute_example_predict()
