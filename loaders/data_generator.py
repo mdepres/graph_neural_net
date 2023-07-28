@@ -403,8 +403,9 @@ class MBS_Generator(Base_Generator):
                     G.add_edge(i,j)
                     nb_internal_edges+=1
                 elif groups[i]!=groups[j] :
-                    edge_target[i,j] = 1
                     if torch.rand(1).item()<self.connection_density:
+                        edge_target[i,j] = 1
+                        edge_target[j,i] = 1
                         G.add_edge(i,j)
                         nb_external_edges+=1
         W = networkx.adjacency_matrix(G)
