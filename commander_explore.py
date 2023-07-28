@@ -125,7 +125,7 @@ def train(config):
         logger = WandbLogger(project=f"{config['problem']}_{config['name']}", log_model="all", save_dir=path_log)
         logger.experiment.config.update(config)
         lr_monitor = LearningRateMonitor(logging_interval='epoch')
-        trainer = pl.Trainer(accelerator=device,max_epochs=max_epochs,logger=logger,log_every_n_steps=log_freq,callbacks=[lr_monitor],precision=16)
+        trainer = pl.Trainer(accelerator=device,max_epochs=max_epochs,logger=logger,log_every_n_steps=log_freq,callbacks=[lr_monitor],precision="16-mixed")
     else:
         trainer = pl.Trainer(accelerator=device,max_epochs=max_epochs,log_every_n_steps=log_freq,precision=16)
     trainer.fit(model_pl, train_loader, val_loader)

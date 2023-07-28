@@ -98,9 +98,7 @@ class Siamese_Node_Exp(pl.LightningModule):
         loss = self.loss(raw_scores)
         self.log('train_loss', loss)
         (acc,n) = self.metric(raw_scores)
-        #print(acc)
         self.log("train_acc", acc/n)
-        #self.log_metric('train', data=g, raw_scores=raw_scores, target=target)
         return loss
 
     def validation_step(self, batch, batch_idx):
