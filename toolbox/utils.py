@@ -286,6 +286,7 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
         else:
             node_color.append("red")
     
+    print(edgelist, G.edges())
     #pos = nx.bipartite_layout(G, nodes)
     nx.draw_networkx(G, node_color=node_color, edge_color=edge_color) #pos=pos,
     plt.savefig("graph.png")
