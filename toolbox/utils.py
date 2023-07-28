@@ -270,6 +270,7 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
             nodes.append(i)
         else:
             node_color.append("red")
+        print(node_color)
         for j in range(adj.shape[1]):
             if adj[i][j]==1:
                 edgelist.append((i,j))
@@ -283,6 +284,7 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
                     edge_color.append("red")
     
     G = nx.from_edgelist(edgelist)
+    print(G.nodes())
     pos = nx.bipartite_layout(G, nodes)
     nx.draw_networkx(G, pos=pos, node_color=node_color, edge_color=edge_color)
     plt.savefig("graph.png")
