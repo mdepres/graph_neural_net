@@ -342,7 +342,7 @@ class Edge_Classif_Exp(pl.LightningModule):
         loss = self.loss(logp.contiguous(), batch['target'].long())
         self.log('train_loss', loss)
         #acc = self.accuracy(logp.tensor.rename(None), batch['target'])
-        acc = self.accuracy(batch['input'][0], logp.tensor.rename(None), target)
+        acc,_,_,_,_ = self.accuracy(batch['input'][0], logp.tensor.rename(None), target)
         self.log("train_acc", acc)
         return loss
 
@@ -352,8 +352,12 @@ class Edge_Classif_Exp(pl.LightningModule):
         loss = self.loss(logp, target.long())
         self.log('val_loss', loss)
         #acc = self.accuracy(logp.tensor.rename(None), target)
-        acc = self.accuracy(batch['input'][0], logp.tensor.rename(None), target)
+        acc,edges_acc,non_edges_acc,internal_acc,external_acc = self.accuracy(batch['input'][0], logp.tensor.rename(None), target)
         self.log("val_acc", acc)
+        self.log("edges_acc", edges_acc)
+        self.log("non_edges_acc", non_edges_acc)
+        self.log("internal_acc", internal_acc)
+        self.log("external_acc", external_acc)
 
     def test_step(self, batch, batch_idx):
         target = batch['target']

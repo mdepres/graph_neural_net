@@ -109,9 +109,5 @@ def bisection_accuracy(adj, logp, target):
                 else: #There is no edge
                     non_edges_acc[1]+=1
     
-    print("Acurracy", acc[0]/acc[1])            
-    print("True edges vs non edges", edges_acc[0]/edges_acc[1], non_edges_acc[0]/non_edges_acc[1])
-    print("True edges : external vs internal", true_external_acc[0]/true_external_acc[1], true_internal_acc[0]/true_internal_acc[1])
-    
-    return acc[0]/acc[1]
+    return acc[0]/acc[1], edges_acc[0]/edges_acc[1], non_edges_acc[0]/non_edges_acc[1], true_external_acc[0]/true_external_acc[1], true_internal_acc[0]/true_internal_acc[1]
                         
