@@ -287,8 +287,8 @@ def mbs_pretty_print(adj, edge_classif, target, groups):
         else:
             edge_color.append("red")
     
-    pos = nx.bipartite_layout(G, nodes)
-    nx.draw_networkx(G, pos= pos, node_color=node_color, edge_color=edge_color) #pos=pos,
+    #pos = nx.bipartite_layout(G, nodes)
+    nx.draw_networkx(G, node_color=node_color, edge_color=edge_color) #pos=pos,
     plt.savefig("graph.png")
     
     acc = torchmetrics.Accuracy(task='multiclass', num_classes=2)
