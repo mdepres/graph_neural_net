@@ -389,8 +389,10 @@ class MBS_Generator(Base_Generator):
         G = networkx.Graph()
         for i in range(n_vertices):
             G.add_node(i)
+            
+        group_size = np.random.randint(5,n_vertices-5)
         # Draw an assignement
-        nodes = torch.randperm(n_vertices)[:n_vertices//2]
+        nodes = torch.randperm(n_vertices)[:group_size] #n_vertices//2
         groups = torch.zeros((n_vertices,)) 
         groups[nodes] = 1
         edge_target = torch.zeros((n_vertices,n_vertices))
